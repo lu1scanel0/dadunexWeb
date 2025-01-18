@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrícola Dadunex</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand text-white" href="#">Agrícola Dadunex</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#about">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#certificados">Certificados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#contact">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Spacer -->
+    <div style="height: 20px; background-color: #f9f9f9;"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content text-center">
+            <h1 class="display-4">Bienvenidos a Agrícola Dadunex</h1>
+            <p class="lead">Más de 20 años cultivando calidad, tradición e innovación.</p>
+            <a href="#contact" class="btn btn-primary btn-lg">Contáctanos</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container text-center">
+            <h2>Sobre Nosotros</h2>
+            <p>En Dadunex, somos una empresa agrícola familiar con más de 20 años de experiencia en la producción de cultivos de calidad. Nuestro compromiso con la excelencia nos ha llevado a obtener certificaciones internacionales que avalan nuestras prácticas sostenibles y la seguridad de nuestros productos.
+
+                Creemos en el poder de la tierra y en el valor de las tradiciones familiares, combinándolas con innovación y tecnología para ofrecer productos frescos y responsables al mercado global. Cada paso de nuestro proceso está guiado por el respeto a la naturaleza y el compromiso con nuestras comunidades.
+                
+                Nuestra historia es un reflejo de esfuerzo, pasión y un firme propósito: llevar lo mejor de nuestra tierra a tu mesa.</p>
+        </div>
+    </section>
+
+    <section id="productos" class="productos">
+        <div class="container text-center">
+            <h2>Nuestras variedades</h2>
+            <div class="row mt-4">
+                <div class="col-md-3 d-flex flex-column align-items-center">
+                    <div class="product-item">
+                        <img src="images/damasco.jpg" alt="Damascos" class="product-image">
+                        <h3>Damascos</h3>
+                        <p>Fruta dulce y nutritiva.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex flex-column align-items-center">
+                    <div class="product-item">
+                        <img src="images/durazno.jpg" alt="Duraznos" class="product-image">
+                        <h3>Duraznos</h3>
+                        <p>Perfectos para postres y meriendas.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex flex-column align-items-center">
+                    <div class="product-item">
+                        <img src="images/nectarin.jpg" alt="Nectarines" class="product-image">
+                        <h3>Nectarines</h3>
+                        <p>Jugosos y llenos de sabor.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex flex-column align-items-center">
+                    <div class="product-item">
+                        <img src="images/ciruela.jpg" alt="Ciruelas" class="product-image">
+                        <h3>Ciruelas</h3>
+                        <p>Ideales para una dieta equilibrada.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+
+    <!-- Certificados Section -->
+    <section id="certificados" class="certificados">
+        <div class="container text-center">
+            <h2>Nuestras Certificaciones</h2>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <img src="images/certificado.png" alt="Certificación Global" class="cert-image">
+                    <h3>Global</h3>
+                    <p>Certificación reconocida a nivel mundial.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="images/certificado.png" alt="Otra Certificación" class="cert-image">
+                    <h3>Otra</h3>
+                    <p>Certificación que garantiza la calidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container text-center">
+            <h2>Contáctanos</h2>
+            <form id="contactForm" class="mt-4">
+                <div class="row">
+                    <!-- Campo Nombre -->
+                    <div class="col-md-6 mb-3">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" required>
+                    </div>
+            
+                    <!-- Campo Email -->
+                    <div class="col-md-6 mb-3">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <!-- Campo Teléfono -->
+                    <div class="col-md-6 mb-3">
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Teléfono (9xxxxxxxx o +56xxxxxxxxx)" required>
+                    </div>
+            
+                    <!-- Campo Asunto -->
+                    <div class="col-md-6 mb-3">
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Asunto" required>
+                    </div>
+                </div>
+            
+                <!-- Campo Mensaje -->
+                <div class="mb-3">
+                    <textarea class="form-control" id="message" name="message" rows="4" placeholder="Mensaje" required></textarea>
+                </div>
+            
+                <!-- Botón Enviar -->
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 Agrícola Dadunex. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
