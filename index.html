@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agrícola Dadunex</title>
-    <link rel="icon" type="images/favicon.ico" href="favicon.ico">
 
-
-    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <!--Mail service-->
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/script.js"></script>
+    
 
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
-        
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="images/logos/dadunex.png" alt="Agrícola Dadunex" class="navbar-logo">
+                <img src="images/logos/logo_dadunex_bco.png" alt="Agrícola Dadunex" class="navbar-logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +49,6 @@
         </div>
     </nav>
     
-
     <!-- Spacer -->
     <div style="height: 20px; background-color: #f9f9f9;"></div>
 
@@ -62,44 +63,64 @@
 
     <!-- About Section -->
     <section id="about" class="about">
-        <div class="container text-center">
-            <h2>Sobre Nosotros</h2>
-            <p>En Dadunex, somos una empresa agrícola familiar con más de 25 años de experiencia en la producción de carozos de calidad. Nuestro compromiso con la excelencia nos ha llevado a obtener certificaciones internacionales que avalan las buenas prácticas agricolas.
-
-                Creemos en el poder de la tierra y en el valor de las tradiciones familiares, combinándolas con innovación y tecnología para ofrecer productos frescos y que cumplan con las exigencias de los diferentes mercados de destino. Cada paso de nuestro proceso está guiado por el respeto a la naturaleza y el compromiso con nuestras comunidades.
+        <div class="container">
+          <!-- Título centrado -->
+          <h2 class="text-center">Sobre Nosotros</h2> 
+          <div class="row align-items-center justify-content-center about-row">
+            <!-- Columna para el logo -->
+            <div class="col-md-5 about-logo d-flex justify-content-center">
+              <img src="images/logos/logo_dadunex.png" alt="Agrícola Dadunex" class="logo-about">
+            </div>
+            <!-- Columna para el texto -->
+            <div class="col-md-5 about-text">
+              <p>
+                En Dadunex, somos una empresa agrícola familiar con más de 25 años de experiencia
+                en la producción de carozos de calidad. Nuestro compromiso con la excelencia nos 
+                ha llevado a obtener certificaciones internacionales que avalan las buenas prácticas 
+                agricolas.
+      
+                Creemos en el poder de la tierra y en el valor de las tradiciones familiares, 
+                combinándolas con innovación y tecnología para ofrecer productos frescos y que cumplan 
+                con las exigencias de los diferentes mercados de destino. Cada paso de nuestro proceso 
+                está guiado por el respeto a la naturaleza y el compromiso con nuestras comunidades.
                 
-                Nuestra historia es un reflejo de esfuerzo, pasión y un firme propósito: llevar lo mejor de nuestra tierra a tu mesa.</p>
+                Nuestra historia es un reflejo de esfuerzo, pasión y un firme propósito: 
+                llevar lo mejor de nuestra tierra a tu mesa.
+              </p>
+            </div>
+          </div>
         </div>
-    </section>
-
+      </section>
+      
+      <!-- Seccion productos -->
     <section id="productos" class="productos">
         <div class="container text-center">
             <h2>Nuestras especies</h2>
             <div class="row mt-4">
                 <div class="col-md-3 d-flex flex-column align-items-center">
                     <div class="product-item">
-                        <img src="images/productos/damasco.jpg" alt="Damascos" class="product-image">
+                        <img src="images/productos/prod_damasco.jpg" alt="Damascos" class="product-image">
                         <h3>Damascos</h3>
                         <!-- <p>Fruta dulce y nutritiva.</p> -->
                     </div>
                 </div>
                 <div class="col-md-3 d-flex flex-column align-items-center">
                     <div class="product-item">
-                        <img src="images/productos/durazno.jpg" alt="Duraznos" class="product-image">
+                        <img src="images/productos/prod_durazno.jpg" alt="Duraznos" class="product-image">
                         <h3>Duraznos</h3>
                         <!-- <p>Perfectos para postres y meriendas.</p> -->
                     </div>
                 </div>
                 <div class="col-md-3 d-flex flex-column align-items-center">
                     <div class="product-item">
-                        <img src="images/productos/nectarin.jpg" alt="Nectarines" class="product-image">
+                        <img src="images/productos/prod_nectarin.jpg" alt="Nectarines" class="product-image">
                         <h3>Nectarines</h3>
                         <!-- <p>Jugosos y llenos de sabor.</p> -->
                     </div>
                 </div>
                 <div class="col-md-3 d-flex flex-column align-items-center">
                     <div class="product-item">
-                        <img src="images/productos/ciruela.jpg" alt="Ciruelas" class="product-image">
+                        <img src="images/productos/prod_ciruela.jpg" alt="Ciruelas" class="product-image">
                         <h3>Ciruelas</h3>
                         <!-- <p>Ideales para una dieta equilibrada.</p> -->
                     </div>
@@ -108,8 +129,6 @@
         </div>
     </section>
     
-    
-
     <!-- Certificados Section -->
     <section id="certificados" class="certificados">
         <div class="container text-center">
@@ -128,9 +147,6 @@
             </div>
         </div>
     </section>
-    
-    
-
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
@@ -142,33 +158,30 @@
                     <div class="col-md-6 mb-3">
                         <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" required>
                     </div>
-            
                     <!-- Campo Email -->
                     <div class="col-md-6 mb-3">
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                     </div>
                 </div>
-            
                 <div class="row">
                     <!-- Campo Teléfono -->
                     <div class="col-md-6 mb-3">
                         <input type="tel" class="form-control" id="phone" name="phone" placeholder="Teléfono (9xxxxxxxx o +56xxxxxxxxx)" required>
                     </div>
-            
                     <!-- Campo Asunto -->
                     <div class="col-md-6 mb-3">
                         <input type="text" class="form-control" id="subject" name="subject" placeholder="Asunto" required>
                     </div>
                 </div>
-            
                 <!-- Campo Mensaje -->
                 <div class="mb-3">
                     <textarea class="form-control" id="message" name="message" rows="4" placeholder="Mensaje" required></textarea>
                 </div>
-            
                 <!-- Botón Enviar -->
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary" id="submitButton">Enviar</button>
             </form>
+            <script src="js/script.js"></script>
+            <!-- <script> src= "js/email.js" </script> -->
         </div>
     </section>
 

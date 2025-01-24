@@ -14,6 +14,7 @@ body {
 
 /* Navbar */
 .navbar {
+    top: 0;
     background-color: #27ae60 !important;
     padding: 0.5rem 1rem;
 }
@@ -28,9 +29,7 @@ body {
     font-size: 1rem;
 }
 
-.navbar-nav .nav-item .nav-link:hover {
-    text-decoration: underline !important;
-}
+
 /* Hero Section */
 .hero {
     background: url('../images/logos/hero.jpg') no-repeat center center/cover;
@@ -89,6 +88,7 @@ body {
     font-size: 1rem;
     border-radius: 5px;
     z-index: 2;
+    border: none;
 }
 
 .hero-content .btn-primary:hover {
@@ -110,7 +110,25 @@ body {
     background-color: white;
     margin-bottom: 3rem;
     border-radius: 5px;
-    text-align: center;
+    /* text-align: center; */
+}
+
+/* Contenedor de columnas dentro de la sección "about" */
+.about-row {
+    margin-top: 2rem;
+}
+
+/* Imagen del logo */
+.logo-about {
+   
+    max-width: 80%; 
+    height: auto;
+}
+
+.about-text p {
+    text-align: left;     
+    margin: 0;           
+    line-height: 1.6;
 }
 
 /* Productos Section */
@@ -129,9 +147,9 @@ body {
 }
 
 .productos .product-image {
-    width: 100%;
+    width: auto;
     max-width: 150px;
-    height: auto;
+    height: 200px;
     border-radius: 10px;
     margin-bottom: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -162,19 +180,13 @@ body {
     text-align: center;
 }
 
-
-
 .certificados .cert-image {
     width: auto;
-    height: 150px;
+    height: 200px;
     border-radius: 10px;
     margin-bottom: 3rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-}
-
-.certificados .cert-image:hover {
-    transform: scale(1.1);
 }
 
 .certificados h3 {
@@ -184,6 +196,7 @@ body {
 }
 
 .certificados p {
+    margin-top: 0rem;
     font-size: 1rem;
     color: #666;
 }
@@ -229,6 +242,8 @@ button:hover {
 
 /* Footer */
 footer {
+    position: sticky;
+    bottom: 0;
     background-color: #27ae60;
     color: white;
     text-align: center;
