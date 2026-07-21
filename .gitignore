@@ -1,0 +1,15 @@
+# Archivos de configuración temporal
+Configuración_de_DNS.csv
+
+# Archivos comprimidos y respaldos
+*.zip
+*.rar
+*-backup/
+*-respaldo/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code
+.vscode/
