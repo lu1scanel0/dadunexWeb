@@ -32,7 +32,7 @@ body {
 
 /* Hero Section */
 .hero {
-    background: url('../images/logos/hero.jpg') no-repeat center center/cover;
+    background: url('../images/logos/hero.webp') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     justify-content: center;
