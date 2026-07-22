@@ -1,96 +1,176 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Reemplaza estos valores con los de tu cuenta EmailJS:
-    const publicKey = '5Bqn1GVG7MA5L7zA2';  // Tu PUBLIC KEY
-    const serviceId = 'service_p45giml';    // Tu SERVICE ID
-    const templateId = 'template_erpj3p9';  // Tu TEMPLATE ID
-  
-    // Inicializa EmailJS con tu PUBLIC KEY
-    emailjs.init(publicKey);
-  
-    // Referencia al formulario y botón
+
+    // URL de API Gateway (se reemplazará más adelante)
+    const API_URL =
+"https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/contact";
+
     const form = document.getElementById("contactForm");
     const submitButton = document.getElementById("submitButton");
-  
-    // Validación del formulario
-    const validateForm = () => {
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const subject = document.getElementById("subject").value.trim();
-      const message = document.getElementById("message").value.trim();
-  
-      // 1) Nombre al menos 4 letras
-      const nameValid = /^[A-Za-záéíóúÁÉÍÓÚ ]{4,}$/.test(name);
-  
-      // 2) Email con un patrón básico
-      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  
-      // 3) Teléfono => +569XXXXXXXX o 9XXXXXXXX
-      // Permite opcionalmente +56 antes de un 9 + 8 dígitos
-      const phoneValid = /^(?:\+56)?9[0-9]{8}$/.test(phone);
-  
-      // 4) Asunto no vacío
-      const subjectValid = subject.length > 0;
-  
-      // 5) Mensaje entre 10 y 2000 caracteres
-      const messageValid = (message.length >= 4 && message.length <= 2000);
-  
-      // Habilita / deshabilita el botón
-      submitButton.disabled = !(nameValid && emailValid && phoneValid && subjectValid && messageValid);
-    };
-  
-    // Escucha cambios para validar en tiempo real
+
+    if (!form || !submitButton) {
+        console.error("No se encontró el formulario.");
+        return;
+    }
+
+    /**
+     * Obtiene los datos del formulario
+     */
+    function getFormData() {
+        return {
+            name: document.getElementById("name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            phone: document.getElementById("phone").value.trim(),
+            subject: document.getElementById("subject").value.trim(),
+            message: document.getElementById("message").value.trim(),
+            website: document.getElementById("website")?.value.trim() || ""
+        };
+    }
+
+    /**
+     * Valida el formulario
+     */
+    function validateForm() {
+
+        const data = getFormData();
+
+        const nameValid =
+            /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]{4,}$/.test(data.name);
+
+        const emailValid =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
+
+        const phone =
+            data.phone.replace(/[\s()-]/g, "");
+
+        const phoneValid =
+            /^(?:\+56)?9\d{8}$/.test(phone);
+
+        const subjectValid =
+            data.subject.length > 0 &&
+            data.subject.length <= 150;
+
+        const messageValid =
+            data.message.length >= 4 &&
+            data.message.length <= 2000;
+
+        submitButton.disabled = !(
+            nameValid &&
+            emailValid &&
+            phoneValid &&
+            subjectValid &&
+            messageValid
+        );
+
+        return !submitButton.disabled;
+    }
+
+    /**
+     * Validación en tiempo real
+     */
     form.addEventListener("input", validateForm);
-  
-    // Envío del formulario
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-  
-      submitButton.disabled = true;
-      submitButton.textContent = "Enviando...";
-  
-      // Construye templateParams
-      const templateParams = {
-        name: document.getElementById("name").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        subject: document.getElementById("subject").value.trim(),
-        message: document.getElementById("message").value.trim(),
-      };
-  
-      // Envía el correo con emailjs.send(...)
-      emailjs.send(serviceId, templateId, templateParams)
-        .then((result) => {
-          // Mensaje de éxito
-          Swal.fire("¡Mensaje enviado!", "Te contactaremos a la brevedad!", "success");
-          
-          // Limpia el formulario
-          form.reset();
-        })
-        .catch((error) => {
-          // Mensaje de error
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Algo salió mal, inténtalo nuevamente.",
-          });
-          console.error("Error al enviar el correo:", error);
-        })
-        .finally(() => {
-          // Restaura el botón
-          submitButton.disabled = false;
-          submitButton.textContent = "Enviar";
-        });
+
+    /**
+     * Envío del formulario
+     */
+    form.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        if (!validateForm()) {
+
+            Swal.fire({
+                icon: "warning",
+                title: "Datos incompletos",
+                text: "Completa correctamente todos los campos."
+            });
+
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Enviando...";
+
+        try {
+
+            const response = await fetch(API_URL, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(getFormData())
+
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message ||
+                    "No fue posible enviar el mensaje."
+                );
+            }
+
+            await Swal.fire({
+
+                icon: "success",
+                title: "¡Mensaje enviado!",
+                text:
+                    "Te contactaremos a la brevedad.",
+
+                confirmButtonColor: "#27ae60"
+
+            });
+
+            form.reset();
+
+            validateForm();
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.fire({
+
+                icon: "error",
+                title: "Error",
+
+                text:
+                    error.message ||
+                    "No fue posible enviar el mensaje."
+
+            });
+
+        } finally {
+
+            submitButton.disabled = false;
+            submitButton.textContent = "Enviar mensaje";
+
+            validateForm();
+
+        }
+
     });
-  
-    // Efecto scroll para hero
+
+    /**
+     * Efecto Hero
+     */
     document.addEventListener("scroll", () => {
-      const hero = document.querySelector(".hero");
-      if (window.scrollY > 50) {
-        hero.classList.add("scrolled");
-      } else {
-        hero.classList.remove("scrolled");
-      }
+
+        const hero = document.querySelector(".hero");
+
+        if (!hero) return;
+
+        if (window.scrollY > 50)
+            hero.classList.add("scrolled");
+        else
+            hero.classList.remove("scrolled");
+
     });
-  });
-  
+
+    // Validación inicial
+    validateForm();
+
+});

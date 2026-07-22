@@ -95,11 +95,6 @@
         type="image/x-icon" 
         href="images/favicon.ico">
 
-    <!--Mail service-->
-    <script
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
-        defer></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" 
         defer></script>
     <script src="js/script.js" 
@@ -335,8 +330,14 @@
                     <textarea class="form-control" id="message" name="message" rows="4"
                         placeholder="Mensaje" maxlength="2000" required></textarea>
                 </div>
+                <!-- Campo oculto antispam -->
+                <div aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
+                    <label for="website">Sitio web</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                </div>
+
                 <!-- Botón Enviar -->
-                <button type="submit" class="btn btn-primary" id="submitButton">Enviar mensaje</button>
+                <button type="submit" class="btn btn-primary" id="submitButton" disabled>Enviar mensaje</button>
             </form>
         </div>
     </section>
