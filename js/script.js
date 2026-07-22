@@ -61,13 +61,27 @@ document.addEventListener("DOMContentLoaded", () => {
             messageValid
         );
 
-        return !submitButton.disabled;
+        return (
+          nameValid &&
+          emailValid &&
+          phoneValid &&
+          subjectValid &&
+          messageValid
+        );
     }
 
     /**
      * Validación en tiempo real
      */
     form.addEventListener("input", validateForm);
+    form.addEventListener("change", validateForm);
+    form.addEventListener("blur", validateForm, true);
+
+    // Revisa campos completados automáticamente por el navegador
+    setTimeout(validateForm, 300);
+    setTimeout(validateForm, 1000);
+
+    window.addEventListener("pageshow", validateForm);
 
     /**
      * Envío del formulario
@@ -147,8 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             submitButton.disabled = false;
             submitButton.textContent = "Enviar mensaje";
-
-            validateForm();
 
         }
 
