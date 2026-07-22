@@ -2,120 +2,106 @@
 <html lang="es-CL">
 <head>
     <meta charset="UTF-8">
-    <meta 
-        name="viewport" 
+    <meta
+        name="viewport"
         content="width=device-width, initial-scale=1.0">
-    
+
     <title>Agrícola Dadunex | Producción de carozos en Chile</title>
-    
-    <meta 
-        name="description" 
-        content="Agrícola Dadunex, empresa familiar con más de 25 años de experiencia en producción de damascos, duraznos, nectarines y ciruelas en Chile.">
-    
-    <link 
-        rel="canonical" 
-        href="https://dadunex.cl/">
 
-    <meta 
-        name="theme-color" 
-        content="#198754">
-    
-    
-    
+    <meta
+        name="description"
+        content="Agrícola Dadunex, empresa familiar con más de 25 años de experiencia en la producción de damascos, duraznos, nectarines y ciruelas en Buin, Chile.">
+
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Agrícola Dadunex">
+    <meta name="application-name" content="Agrícola Dadunex">
+    <meta name="theme-color" content="#198754">
+
+    <link rel="canonical" href="https://dadunex.cl/">
+
+    <!-- Identidad e iconos -->
+    <link rel="icon" href="/images/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
     <!-- Open Graph: WhatsApp, Facebook y LinkedIn -->
-    <meta
-        property="og:type"
-        content="website">
-
-    <meta
-        property="og:locale"
-        content="es_CL">
-
-    <meta
-        property="og:site_name"
-        content="Agrícola Dadunex">
-
-    <meta
-        property="og:title"
-        content="Agrícola Dadunex | Producción de carozos en Chile">
-
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_CL">
+    <meta property="og:site_name" content="Agrícola Dadunex">
+    <meta property="og:title" content="Agrícola Dadunex | Producción de carozos en Chile">
     <meta
         property="og:description"
         content="Más de 25 años de experiencia en la producción de damascos, duraznos, nectarines y ciruelas en Buin, Chile.">
-
-    <meta
-        property="og:url"
-        content="https://dadunex.cl/">
-
-    <meta
-        property="og:image"
-        content="https://dadunex.cl/images/logos/hero.webp">
-
-    <meta
-        property="og:image:alt"
-        content="Producción frutícola de Agrícola Dadunex">
+    <meta property="og:url" content="https://dadunex.cl/">
+    <meta property="og:image" content="https://dadunex.cl/images/logos/hero.webp">
+    <meta property="og:image:secure_url" content="https://dadunex.cl/images/logos/hero.webp">
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:alt" content="Producción frutícola de Agrícola Dadunex">
 
     <!-- X / Twitter -->
-    <meta
-        name="twitter:card"
-        content="summary_large_image">
-
-    <meta
-        name="twitter:title"
-        content="Agrícola Dadunex | Producción de carozos en Chile">
-
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agrícola Dadunex | Producción de carozos en Chile">
     <meta
         name="twitter:description"
         content="Producción de damascos, duraznos, nectarines y ciruelas en Buin, Chile.">
+    <meta name="twitter:image" content="https://dadunex.cl/images/logos/hero.webp">
+    <meta name="twitter:image:alt" content="Producción frutícola de Agrícola Dadunex">
 
-    <meta
-        name="twitter:image"
-        content="https://dadunex.cl/images/logos/hero.webp">
-
-    
+    <!-- Recurso principal -->
     <link
         rel="preload"
-        href="images/logos/hero.webp"
+        href="/images/logos/hero.webp"
         as="image"
         type="image/webp"
         fetchpriority="high">
 
     <!-- Bootstrap CSS -->
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link 
-        rel="stylesheet" 
-        href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 
-    <link 
-        rel="icon" 
-        type="image/x-icon" 
-        href="images/favicon.ico">
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+        defer></script>
+    <script src="/js/script.js" defer></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" 
-        defer></script>
-    <script src="js/script.js" 
-        defer></script>
-    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Organization",
+        "@id": "https://dadunex.cl/#organization",
         "name": "Agrícola Dadunex",
         "url": "https://dadunex.cl/",
-        "logo": "https://dadunex.cl/images/logos/logo_dadunex.webp",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://dadunex.cl/images/logos/logo_dadunex.webp"
+        },
         "image": "https://dadunex.cl/images/logos/hero.webp",
-        "description": "Empresa familiar con más de 25 años de experiencia en la producción de damascos, duraznos, nectarines y ciruelas en Buin, Chile.",
+        "description": "Empresa agrícola familiar con más de 25 años de experiencia en la producción de damascos, duraznos, nectarines y ciruelas en Buin, Chile.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Buin",
+            "addressRegion": "Región Metropolitana",
+            "addressCountry": "CL"
+        },
         "areaServed": {
             "@type": "Country",
             "name": "Chile"
-        }
+        },
+        "knowsAbout": [
+            "Producción de damascos",
+            "Producción de duraznos",
+            "Producción de nectarines",
+            "Producción de ciruelas",
+            "Buenas prácticas agrícolas"
+        ]
     }
     </script>
-
 </head>
 <body>
     <!-- Navbar -->
@@ -360,7 +346,6 @@
                class="footer-credit">
                 C3 Cloud
             </a>-->
-        </small>
     </div>
 </footer>
 
