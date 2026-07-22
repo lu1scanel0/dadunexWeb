@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // URL de API Gateway (se reemplazará más adelante)
+    //  Endpoint de producción del formulario Dadunex
     const API_URL =
 "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/contact";
 
