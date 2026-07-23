@@ -3,6 +3,18 @@ import {
   SendEmailCommand
 } from "@aws-sdk/client-sesv2";
 
+import { randomUUID } from "node:crypto";
+
+import {
+  DynamoDBClient
+} from "@aws-sdk/client-dynamodb";
+
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  UpdateCommand
+} from "@aws-sdk/lib-dynamodb";
+
 /**
  * CONFIGURACIÓN
  *
@@ -10,6 +22,7 @@ import {
  *
  * DESTINATION_EMAIL=luis.canelolastra@gmail.com
  * FROM_EMAIL=contacto@dadunex.cl
+ * CONTACTS_TABLE=dadunex-prod-contacts
  *
  * AWS_REGION no se configura manualmente.
  * Lambda la proporciona automáticamente.
@@ -19,9 +32,39 @@ const sesClient = new SESv2Client({
   region: process.env.AWS_REGION
 });
 
+/**
+ * Cliente base de DynamoDB.
+ *
+ * La región se obtiene automáticamente desde AWS Lambda
+ * mediante la variable AWS_REGION.
+ */
+const dynamoClient = new DynamoDBClient({
+  region: process.env.AWS_REGION
+});
+
+/**
+ * Cliente de documentos de DynamoDB.
+ *
+ * Permite guardar y actualizar objetos JavaScript normales,
+ * sin convertir manualmente cada atributo al formato de DynamoDB.
+ */
+const documentClient = DynamoDBDocumentClient.from(
+  dynamoClient,
+  {
+    marshallOptions: {
+      removeUndefinedValues: true
+    }
+  }
+);
+
 const DESTINATION_EMAIL = process.env.DESTINATION_EMAIL;
 const FROM_EMAIL = process.env.FROM_EMAIL;
-
+const CONTACTS_TABLE = process.env.CONTACTS_TABLE;
+const EMAIL_STATUS = Object.freeze({
+  PENDING: "PENDING",
+  SENT: "SENT",
+  FAILED: "FAILED"
+});
 const ALLOWED_ORIGINS = new Set([
   "https://dadunex.cl",
   "https://www.dadunex.cl"
@@ -197,6 +240,134 @@ function getRequestMetadata(event) {
       event?.headers?.["User-Agent"] ||
       "no-disponible"
   };
+}
+
+/**
+ * Construye el objeto que se guardará en DynamoDB.
+ *
+ * El contacto se crea inicialmente con emailStatus PENDING,
+ * porque el correo todavía no ha sido enviado mediante SES.
+ */
+function buildContactRecord({
+  name,
+  email,
+  phone,
+  subject,
+  message,
+  metadata
+}) {
+  const currentDate = new Date().toISOString();
+
+  return {
+    contactId: randomUUID(),
+
+    createdAt: currentDate,
+    updatedAt: currentDate,
+
+    /*
+     * Estado comercial del contacto.
+     * Más adelante podrá cambiar a IN_PROGRESS, ANSWERED o CLOSED.
+     */
+    status: "NEW",
+
+    /*
+     * Identifica el origen de la consulta.
+     */
+    source: "WEB",
+
+    name,
+    email,
+    phone,
+    subject,
+    message,
+
+    /*
+     * Estado técnico del envío mediante Amazon SES.
+     */
+    emailStatus: EMAIL_STATUS.PENDING,
+    sesMessageId: null,
+    emailError: null,
+
+    /*
+     * Información útil para auditoría y CloudWatch.
+     */
+    requestId: metadata.requestId,
+    sourceIp: metadata.sourceIp,
+    userAgent: metadata.userAgent,
+
+    /*
+     * Campos preparados para el futuro panel administrativo.
+     */
+    responseDate: null,
+    notes: ""
+  };
+}
+
+/**
+ * Guarda un contacto nuevo en DynamoDB.
+ *
+ * Se ejecuta antes de enviar el correo para evitar perder
+ * la consulta si Amazon SES presenta un error.
+ */
+async function saveContact(contact) {
+  const command = new PutCommand({
+    TableName: CONTACTS_TABLE,
+
+    Item: contact,
+
+    /*
+     * Evita sobrescribir un elemento existente si se repitiera
+     * accidentalmente el mismo UUID.
+     */
+    ConditionExpression: "attribute_not_exists(contactId)"
+  });
+
+  await documentClient.send(command);
+}
+
+/**
+ * Actualiza el resultado del envío mediante Amazon SES.
+ *
+ * @param {string} contactId UUID del contacto.
+ * @param {"SENT"|"FAILED"} emailStatus Resultado del envío.
+ * @param {string|null} sesMessageId ID entregado por SES.
+ * @param {string|null} emailError Mensaje de error resumido.
+ */
+async function updateEmailStatus(
+  contactId,
+  emailStatus,
+  sesMessageId = null,
+  emailError = null
+) {
+  const command = new UpdateCommand({
+    TableName: CONTACTS_TABLE,
+
+    Key: {
+      contactId
+    },
+
+    UpdateExpression: [
+      "SET emailStatus = :emailStatus",
+      "sesMessageId = :sesMessageId",
+      "emailError = :emailError",
+      "updatedAt = :updatedAt"
+    ].join(", "),
+
+    ExpressionAttributeValues: {
+      ":emailStatus": emailStatus,
+      ":sesMessageId": sesMessageId,
+      ":emailError": emailError,
+      ":updatedAt": new Date().toISOString()
+    },
+
+    /*
+     * Impide que UpdateCommand cree un elemento nuevo
+     * si el contacto no existe.
+     */
+    ConditionExpression: "attribute_exists(contactId)"
+  });
+
+  await documentClient.send(command);
 }
 
 /**
@@ -701,17 +872,17 @@ export const handler = async (event) => {
     /*
      * Verifica la configuración de Lambda.
      */
-    if (!DESTINATION_EMAIL || !FROM_EMAIL) {
-      console.error(
-        "Faltan las variables DESTINATION_EMAIL o FROM_EMAIL."
-      );
+if (!DESTINATION_EMAIL || !FROM_EMAIL || !CONTACTS_TABLE) {
+  console.error(
+    "Faltan DESTINATION_EMAIL, FROM_EMAIL o CONTACTS_TABLE."
+  );
 
-      return createResponse(
-        event,
-        500,
-        "La función no está configurada correctamente."
-      );
-    }
+  return createResponse(
+    event,
+    500,
+    "La función no está configurada correctamente."
+  );
+}
 
     const body = parseRequestBody(event);
 
@@ -804,7 +975,44 @@ export const handler = async (event) => {
       message
     };
 
-    const sendEmailCommand = new SendEmailCommand({
+    /*
+ * Construye y guarda el contacto antes de enviar el correo.
+ *
+ * Si SES falla posteriormente, la consulta seguirá disponible
+ * dentro de DynamoDB.
+ */
+const contactRecord = buildContactRecord({
+  ...emailData,
+  metadata
+});
+
+/*
+ * Guarda el contacto antes de enviar el correo.
+ * Si DynamoDB falla, detenemos el proceso y registramos
+ * el error para facilitar el diagnóstico.
+ */
+try {
+
+  await saveContact(contactRecord);
+
+  console.log("Contacto guardado en DynamoDB:", {
+    requestId: metadata.requestId,
+    contactId: contactRecord.contactId,
+    emailStatus: contactRecord.emailStatus
+  });
+
+} catch (dbError) {
+
+  console.error("No fue posible guardar el contacto en DynamoDB:", {
+    requestId: metadata.requestId,
+    errorName: dbError?.name,
+    errorMessage: dbError?.message
+  });
+
+  throw dbError;
+}
+
+const sendEmailCommand = new SendEmailCommand({
       FromEmailAddress:
         `Sitio web Dadunex <${FROM_EMAIL}>`,
 
@@ -840,18 +1048,93 @@ export const handler = async (event) => {
       }
     });
 
-    const sesResult = await sesClient.send(sendEmailCommand);
+try {
+  const sesResult = await sesClient.send(sendEmailCommand);
 
-    console.log("Correo enviado correctamente:", {
+  /*
+   * El correo fue aceptado por Amazon SES.
+   *
+   * Actualizamos el registro de DynamoDB y guardamos
+   * el identificador entregado por SES.
+   */
+try {
+
+  await updateEmailStatus(
+    contactRecord.contactId,
+    EMAIL_STATUS.SENT,
+    sesResult.MessageId ?? null,
+    null
+  );
+
+} catch (updateError) {
+
+  console.error(
+    "El correo fue enviado, pero no fue posible actualizar DynamoDB:",
+    {
       requestId: metadata.requestId,
-      messageId: sesResult.MessageId
-    });
+      contactId: contactRecord.contactId,
+      errorName: updateError?.name,
+      errorMessage: updateError?.message
+    }
+  );
 
-    return createResponse(
-      event,
-      200,
-      "Tu mensaje fue enviado correctamente."
+}
+
+  console.log("Correo enviado correctamente:", {
+    requestId: metadata.requestId,
+    contactId: contactRecord.contactId,
+    messageId: sesResult.MessageId
+  });
+
+  return createResponse(
+    event,
+    200,
+    "Tu mensaje fue enviado correctamente."
+  );
+} catch (emailError) {
+  /*
+   * El contacto ya fue guardado, pero SES no pudo enviar
+   * el correo. Lo marcamos como FAILED para recuperarlo
+   * posteriormente.
+   */
+  console.error("SES no pudo enviar el correo:", {
+    requestId: metadata.requestId,
+    contactId: contactRecord.contactId,
+    errorName: emailError?.name,
+    errorMessage: emailError?.message
+  });
+
+  try {
+    await updateEmailStatus(
+      contactRecord.contactId,
+      EMAIL_STATUS.FAILED,
+      null,
+      cleanText(
+        emailError?.message || "Error desconocido de Amazon SES",
+        500
+      )
     );
+  } catch (dynamoUpdateError) {
+    /*
+     * Registramos este error, pero conservamos como principal
+     * el error original producido por SES.
+     */
+    console.error(
+      "No fue posible actualizar emailStatus en DynamoDB:",
+      {
+        requestId: metadata.requestId,
+        contactId: contactRecord.contactId,
+        errorName: dynamoUpdateError?.name,
+        errorMessage: dynamoUpdateError?.message
+      }
+    );
+  }
+
+  /*
+   * Reenvía el error al catch general del handler.
+   */
+  throw emailError;
+}
   } catch (error) {
     if (error?.message === "REQUEST_TOO_LARGE") {
       return createResponse(
