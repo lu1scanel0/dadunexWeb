@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow"
+  >
+
+  <title>Panel administrativo | Dadunex</title>
+
+  <link
+    rel="stylesheet"
+    href="./css/common.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/dashboard.css"
+  >
+</head>
+
+<body>
+
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside
+      class="sidebar"
+      id="sidebar"
+      aria-label="Navegación principal"
+    >
+
+      <div class="sidebar__header">
+
+<a
+  class="sidebar__brand"
+  href="./dashboard.html"
+  aria-label="Ir al dashboard de Dadunex"
+>
+  <img
+    class="sidebar__brand-logo"
+    src="./assets/logo_dadunex_bco.webp"
+    alt="Agrícola Dadunex"
+    width="170"
+    height="70"
+  >
+</a>
+            Dadunex
+          </span>
+
+        </a>
+
+      </div>
+
+      <nav class="sidebar__nav">
+
+        <a
+          class="sidebar__link is-active"
+          href="./dashboard.html"
+          aria-current="page"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ◫
+          </span>
+
+          Dashboard
+        </a>
+
+        <div class="sidebar__section">
+
+        <a
+            class="sidebar__link"
+            href="#contacts"
+        >
+            <span
+            class="sidebar__icon"
+            aria-hidden="true"
+            >
+            ✉
+            </span>
+
+            <span>Contactos</span>
+
+            <span class="sidebar__counter">
+            2
+            </span>
+        </a>
+
+        <div class="sidebar__submenu">
+
+            <a
+            class="sidebar__sublink"
+            href="#all-contacts"
+            >
+            Todos
+            </a>
+
+            <a
+            class="sidebar__sublink"
+            href="#new-contacts"
+            >
+            Nuevos
+            </a>
+
+            <a
+            class="sidebar__sublink"
+            href="#pending-contacts"
+            >
+            Pendientes
+            </a>
+
+            <a
+            class="sidebar__sublink"
+            href="#answered-contacts"
+            >
+            Respondidos
+            </a>
+
+        </div>
+
+        </div>
+        <a
+        class="sidebar__link"
+        href="#search"
+        >
+        <span
+            class="sidebar__icon"
+            aria-hidden="true"
+        >
+            ⌕
+        </span>
+
+        Buscar
+        </a>
+        <a
+          class="sidebar__link"
+          href="#settings"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ⚙
+          </span>
+
+          Configuración
+        </a>
+
+      </nav>
+
+      <div class="sidebar__footer">
+
+        <button
+          class="button button--ghost sidebar__logout"
+          type="button"
+        >
+          Cerrar sesión
+        </button>
+
+      </div>
+
+    </aside>
+
+    <!-- Fondo al abrir el menú móvil -->
+    <button
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      type="button"
+      aria-label="Cerrar menú lateral"
+    ></button>
+
+    <!-- Contenido principal -->
+    <div class="admin-main">
+
+      <header class="admin-header">
+
+        <div class="admin-header__left">
+
+          <button
+            class="button button--ghost button--icon mobile-menu-button"
+            id="mobileMenuButton"
+            type="button"
+            aria-label="Abrir menú lateral"
+            aria-controls="sidebar"
+            aria-expanded="false"
+          >
+            ☰
+          </button>
+
+          <h1 class="admin-header__title">
+            Dashboard
+          </h1>
+
+        </div>
+
+        <div class="admin-header__right">
+
+          <div class="admin-header__user">
+
+            <div class="admin-header__user-info">
+
+              <span class="admin-header__user-name">
+                Luis Canelo
+              </span>
+
+              <span class="admin-header__user-role">
+                Administrador
+              </span>
+
+            </div>
+
+            <span class="avatar">
+              LC
+            </span>
+
+          </div>
+
+        </div>
+
+      </header>
+
+      <main class="admin-content">
+
+        <div class="admin-page-header">
+
+          <div>
+
+            <h2 class="page-title">
+              Resumen general
+            </h2>
+
+            <p class="page-description">
+              Gestiona los contactos recibidos desde dadunex.cl.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- KPI temporales -->
+        <section
+          class="kpi-grid"
+          aria-label="Indicadores principales"
+        >
+
+          <article class="kpi-card">
+
+            <div class="kpi-card__header">
+
+              <span class="kpi-card__label">
+                Nuevos
+              </span>
+
+              <span
+                class="kpi-card__icon"
+                aria-hidden="true"
+              >
+                ✉
+              </span>
+
+            </div>
+
+            <p class="kpi-card__value">
+              0
+            </p>
+
+            <p class="kpi-card__meta">
+              Sin datos cargados
+            </p>
+
+          </article>
+
+          <article class="kpi-card kpi-card--warning">
+
+            <div class="kpi-card__header">
+
+              <span class="kpi-card__label">
+                Pendientes
+              </span>
+
+              <span
+                class="kpi-card__icon"
+                aria-hidden="true"
+              >
+                ◷
+              </span>
+
+            </div>
+
+            <p class="kpi-card__value">
+              0
+            </p>
+
+            <p class="kpi-card__meta">
+              Sin datos cargados
+            </p>
+
+          </article>
+
+          <article class="kpi-card">
+
+            <div class="kpi-card__header">
+
+              <span class="kpi-card__label">
+                Respondidos
+              </span>
+
+              <span
+                class="kpi-card__icon"
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+
+            </div>
+
+            <p class="kpi-card__value">
+              0
+            </p>
+
+            <p class="kpi-card__meta">
+              Sin datos cargados
+            </p>
+
+          </article>
+
+          <article class="kpi-card kpi-card--info">
+
+            <div class="kpi-card__header">
+
+              <span class="kpi-card__label">
+                Total de contactos
+              </span>
+
+              <span
+                class="kpi-card__icon"
+                aria-hidden="true"
+              >
+                👥
+              </span>
+
+            </div>
+
+            <p class="kpi-card__value">
+              0
+            </p>
+
+            <p class="kpi-card__meta">
+              Sin datos cargados
+            </p>
+
+          </article>
+
+        </section>
+
+        <!-- Contenido temporal -->
+        <section class="card">
+
+          <div class="card__header">
+
+            <h2 class="section-title margin-bottom-0">
+              Últimos contactos
+            </h2>
+
+            <a
+            class="button button--secondary contacts-link"
+            href="#contacts"
+            >
+            <span>Ver contactos</span>
+
+            <span
+                class="contacts-link__arrow"
+                aria-hidden="true"
+            >
+                →
+            </span>
+            </a>
+
+          </div>
+
+        <div class="recent-contacts">
+
+        <a
+            class="recent-contact"
+            href="#contact-luis"
+        >
+            <span class="avatar avatar--small">
+            LC
+            </span>
+
+            <span class="recent-contact__identity">
+            <strong class="recent-contact__name">
+                Luis Canelo
+            </strong>
+
+            <span class="recent-contact__email">
+                luis@example.cl
+            </span>
+            </span>
+
+            <span class="recent-contact__subject">
+            Consulta sobre producción agrícola
+            </span>
+
+            <span class="recent-contact__date">
+            Hace 2 horas
+            </span>
+
+            <span class="badge badge--new">
+            Nuevo
+            </span>
+
+            <span
+            class="recent-contact__arrow"
+            aria-hidden="true"
+            >
+            →
+            </span>
+        </a>
+
+        <a
+            class="recent-contact"
+            href="#contact-maria"
+        >
+            <span class="avatar avatar--small">
+            MS
+            </span>
+
+            <span class="recent-contact__identity">
+            <strong class="recent-contact__name">
+                María Soto
+            </strong>
+
+            <span class="recent-contact__email">
+                maria@example.cl
+            </span>
+            </span>
+
+            <span class="recent-contact__subject">
+            Cotización de productos agrícolas
+            </span>
+
+            <span class="recent-contact__date">
+            Hace 5 horas
+            </span>
+
+            <span class="badge badge--pending">
+            Pendiente
+            </span>
+
+            <span
+            class="recent-contact__arrow"
+            aria-hidden="true"
+            >
+            →
+            </span>
+        </a>
+
+        <a
+            class="recent-contact"
+            href="#contact-pedro"
+        >
+            <span class="avatar avatar--small">
+            PD
+            </span>
+
+            <span class="recent-contact__identity">
+            <strong class="recent-contact__name">
+                Pedro Díaz
+            </strong>
+
+            <span class="recent-contact__email">
+                pedro@example.cl
+            </span>
+            </span>
+
+            <span class="recent-contact__subject">
+            Consulta por disponibilidad
+            </span>
+
+            <span class="recent-contact__date">
+            Ayer
+            </span>
+
+            <span class="badge badge--answered">
+            Respondido
+            </span>
+
+            <span
+            class="recent-contact__arrow"
+            aria-hidden="true"
+            >
+            →
+            </span>
+        </a>
+
+        </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const mobileMenuButton =
+      document.getElementById("mobileMenuButton");
+
+    function openSidebar() {
+      sidebar.classList.add("is-open");
+      sidebarOverlay.classList.add("is-visible");
+      mobileMenuButton.setAttribute("aria-expanded", "true");
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove("is-open");
+      sidebarOverlay.classList.remove("is-visible");
+      mobileMenuButton.setAttribute("aria-expanded", "false");
+    }
+
+    mobileMenuButton.addEventListener("click", () => {
+      const isOpen = sidebar.classList.contains("is-open");
+
+      if (isOpen) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+
+    sidebarOverlay.addEventListener("click", closeSidebar);
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) {
+        closeSidebar();
+      }
+    });
+  </script>
+
+</body>
+</html>

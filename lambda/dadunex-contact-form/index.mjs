@@ -1017,10 +1017,13 @@ const sendEmailCommand = new SendEmailCommand({
         `Sitio web Dadunex <${FROM_EMAIL}>`,
 
       Destination: {
-        ToAddresses: [
+        
+        ToAddresses: 
           DESTINATION_EMAIL
-        ]
-      },
+            .split(",")
+            .map((destinationEmail) => destinationEmail.trim())
+            .filter(Boolean)
+        },
 
       ReplyToAddresses: [
         email
