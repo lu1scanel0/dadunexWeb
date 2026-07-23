@@ -148,7 +148,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about" aria-labelledby="about-title">
+    <section id="about" class="about reveal-section" aria-labelledby="about-title">
         <div class="container">
           <!-- Título centrado -->
           <h2 id="about-title" class="text-center">Sobre nosotros</h2> 
@@ -185,7 +185,7 @@
       </section>
       
       <!-- Seccion productos -->
-    <section id="productos" class="productos" aria-labelledby="productos-title">
+    <section id="productos" class="productos reveal-section" aria-labelledby="productos-title">
         <div class="container text-center">
             <h2 id="productos-title">Nuestras especies</h2>
             <div class="row mt-4">
@@ -246,7 +246,7 @@
     </section>
     
     <!-- Certificados Section -->
-    <section id="certificados" class="certificados" aria-labelledby="certificados-title">
+    <section id="certificados" class="certificados reveal-section" aria-labelledby="certificados-title">
         <div class="container text-center">
             <h2 id="certificados-title">Nuestras certificaciones</h2>
             <div class="row mt-4">
@@ -277,54 +277,122 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact" aria-labelledby="contact-title">
-        <div class="container text-center">
-            <h2 id="contact-title">Contáctanos</h2>
-            <form id="contactForm" class="mt-4">
-                <div class="row">
-                    <!-- Campo Nombre -->
-                    <div class="col-md-6 mb-3">
-                        <label for="name" class="visually-hidden">Nombre</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Nombre"
-                            autocomplete="name" maxlength="100" required>
-                    </div>
-                    <!-- Campo Email -->
-                    <div class="col-md-6 mb-3">
-                        <label for="email" class="visually-hidden">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico"
-                            autocomplete="email" maxlength="254" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Campo Teléfono -->
-                    <div class="col-md-6 mb-3">
-                        <label for="phone" class="visually-hidden">Teléfono</label>
-                        <input type="tel" class="form-control" id="phone" name="phone"
-                            placeholder="Teléfono (+56 9 1234 5678)" autocomplete="tel"
-                            inputmode="tel" maxlength="20" required>
-                    </div>
-                    <!-- Campo Asunto -->
-                    <div class="col-md-6 mb-3">
-                        <label for="subject" class="visually-hidden">Asunto</label>
-                        <input type="text" class="form-control" id="subject" name="subject"
-                            placeholder="Asunto" maxlength="150" required>
-                    </div>
-                </div>
-                <!-- Campo Mensaje -->
-                <div class="mb-3">
-                    <label for="message" class="visually-hidden">Mensaje</label>
-                    <textarea class="form-control" id="message" name="message" rows="4"
-                        placeholder="Mensaje" maxlength="2000" required></textarea>
-                </div>
-                <!-- Campo oculto antispam -->
-                <div aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
-                    <label for="website">Sitio web</label>
-                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+    <section id="contact" class="contact reveal-section" aria-labelledby="contact-title">
+        <div class="container">
+            <div class="contact-panel">
+                <div class="contact-heading text-center">
+                    <p class="contact-kicker">Contacto</p>
+                    <h2 id="contact-title">Conversemos</h2>
+                    <p>
+                        Completa el formulario y nos pondremos en contacto contigo.
+                    </p>
                 </div>
 
-                <!-- Botón Enviar -->
-                <button type="submit" class="btn btn-primary" id="submitButton">Enviar mensaje</button>
-            </form>
+                <form id="contactForm" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                placeholder="Nombre"
+                                autocomplete="name"
+                                maxlength="100"
+                                required>
+                            <div class="invalid-feedback">
+                                Ingresa un nombre válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="correo@ejemplo.cl"
+                                autocomplete="email"
+                                maxlength="254"
+                                required>
+                            <div class="invalid-feedback">
+                                Ingresa un correo válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Teléfono</label>
+                            <input
+                                type="tel"
+                                class="form-control"
+                                id="phone"
+                                name="phone"
+                                placeholder="912345678"
+                                autocomplete="tel"
+                                inputmode="numeric"
+                                maxlength="9"
+                                required>
+                            <div class="invalid-feedback">
+                                Ingresa 9 números.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="subject" class="form-label">Asunto</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="subject"
+                                name="subject"
+                                placeholder="Asunto"
+                                maxlength="150"
+                                required>
+                            <div class="invalid-feedback">
+                                Ingresa un asunto.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="message" class="form-label">Mensaje</label>
+                            <textarea
+                                class="form-control"
+                                id="message"
+                                name="message"
+                                rows="5"
+                                placeholder="Escribe tu mensaje"
+                                required></textarea>
+                            <div class="invalid-feedback">
+                                Escribe un mensaje.
+                            </div>
+                            <div class="message-count" id="messageCounter" aria-live="polite">
+                                0 caracteres
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-center mt-4">
+                            <button
+                                type="submit"
+                                class="btn btn-primary contact-button"
+                                id="submitButton"
+                                disabled>
+                                <span
+                                    id="submitSpinner"
+                                    class="spinner-border spinner-border-sm me-2 d-none"
+                                    aria-hidden="true"></span>
+                                <span id="submitButtonText">Enviar mensaje</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div
+                        id="formStatus"
+                        class="visually-hidden"
+                        role="status"
+                        aria-live="polite"></div>
+                </form>
+            </div>
         </div>
     </section>
 
