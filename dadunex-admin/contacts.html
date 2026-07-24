@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow"
+  >
+
+  <title>Contactos | Dadunex Admin</title>
+
+  <link
+    rel="stylesheet"
+    href="./css/common.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/dashboard.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/contacts.css"
+  >
+</head>
+
+<body>
+
+  <div class="admin-layout">
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+      aria-label="Navegación principal"
+    >
+
+      <div class="sidebar__header">
+
+        <a
+          class="sidebar__brand"
+          href="./dashboard.html"
+          aria-label="Ir al dashboard de Dadunex"
+        >
+          <img
+            class="sidebar__brand-logo"
+            src="./assets/logo_dadunex_bco.webp"
+            alt="Agrícola Dadunex"
+            width="170"
+            height="70"
+          >
+        </a>
+
+      </div>
+
+      <nav class="sidebar__nav">
+
+        <a
+          class="sidebar__link"
+          href="./dashboard.html"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ◫
+          </span>
+
+          <span>Dashboard</span>
+        </a>
+
+        <div class="sidebar__section">
+
+          <a
+            class="sidebar__link is-active"
+            href="./contacts.html"
+            aria-current="page"
+          >
+            <span
+              class="sidebar__icon"
+              aria-hidden="true"
+            >
+              ✉
+            </span>
+
+            <span>Contactos</span>
+
+            <span
+              class="sidebar__counter"
+              id="sidebar-new-contacts-count"
+              aria-label="Contactos nuevos"
+            >
+              0
+            </span>
+          </a>
+
+          <div class="sidebar__submenu">
+
+            <button
+              class="sidebar__sublink is-active"
+              type="button"
+              data-status-filter="ALL"
+            >
+              Todos
+            </button>
+
+            <button
+              class="sidebar__sublink"
+              type="button"
+              data-status-filter="NEW"
+            >
+              Nuevos
+            </button>
+
+            <button
+              class="sidebar__sublink"
+              type="button"
+              data-status-filter="PENDING"
+            >
+              Pendientes
+            </button>
+
+            <button
+              class="sidebar__sublink"
+              type="button"
+              data-status-filter="ANSWERED"
+            >
+              Respondidos
+            </button>
+
+          </div>
+
+        </div>
+
+        <a
+          class="sidebar__link"
+          href="#search"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ⌕
+          </span>
+
+          <span>Buscar</span>
+        </a>
+
+        <a
+          class="sidebar__link"
+          href="#settings"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ⚙
+          </span>
+
+          <span>Configuración</span>
+        </a>
+
+      </nav>
+
+      <div class="sidebar__footer">
+
+        <button
+          class="button button--ghost sidebar__logout"
+          id="logout-button"
+          type="button"
+        >
+          Cerrar sesión
+        </button>
+
+      </div>
+
+    </aside>
+
+    <button
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      type="button"
+      aria-label="Cerrar menú lateral"
+    ></button>
+
+    <div class="admin-main">
+
+      <header class="admin-header">
+
+        <div class="admin-header__left">
+
+          <button
+            class="button button--ghost button--icon mobile-menu-button"
+            id="mobileMenuButton"
+            type="button"
+            aria-label="Abrir menú lateral"
+            aria-controls="sidebar"
+            aria-expanded="false"
+          >
+            ☰
+          </button>
+
+          <h1 class="admin-header__title">
+            Contactos
+          </h1>
+
+        </div>
+
+        <div class="admin-header__right">
+
+          <div class="admin-header__user">
+
+            <div class="admin-header__user-info">
+
+              <span class="admin-header__user-name">
+                Luis Canelo
+              </span>
+
+              <span
+                class="admin-header__user-role"
+                data-user-email
+              >
+                admin@dadunex.cl
+              </span>
+
+            </div>
+
+            <span class="avatar">
+              LC
+            </span>
+
+          </div>
+
+        </div>
+
+      </header>
+
+      <main class="admin-content">
+
+        <div class="admin-page-header">
+
+          <div>
+
+            <h2 class="page-title">
+              Gestión de contactos
+            </h2>
+
+            <p class="page-description">
+              Revisa y organiza los mensajes recibidos desde dadunex.cl.
+            </p>
+
+          </div>
+
+        </div>
+
+        <section
+          class="contacts-toolbar card"
+          aria-label="Búsqueda y filtros"
+        >
+
+          <div class="contacts-toolbar__search">
+
+            <label
+              class="form-label"
+              for="contacts-search"
+            >
+              Buscar contacto
+            </label>
+
+            <div class="search-field">
+
+              <span
+                class="search-field__icon"
+                aria-hidden="true"
+              >
+                ⌕
+              </span>
+
+              <input
+                class="form-input search-field__input"
+                id="contacts-search"
+                type="search"
+                placeholder="Nombre, correo, teléfono o asunto"
+                autocomplete="off"
+              >
+
+            </div>
+
+          </div>
+
+          <div class="contacts-toolbar__filter">
+
+            <label
+              class="form-label"
+              for="status-filter"
+            >
+              Estado
+            </label>
+
+            <select
+              class="form-select"
+              id="status-filter"
+            >
+              <option value="ALL">
+                Todos
+              </option>
+
+              <option value="NEW">
+                Nuevos
+              </option>
+
+              <option value="PENDING">
+                Pendientes
+              </option>
+
+              <option value="ANSWERED">
+                Respondidos
+              </option>
+            </select>
+
+          </div>
+
+          <div class="contacts-toolbar__sort">
+
+            <label
+              class="form-label"
+              for="contacts-sort"
+            >
+              Ordenar por
+            </label>
+
+            <select
+              class="form-select"
+              id="contacts-sort"
+            >
+              <option value="DATE_DESC">
+                Más recientes
+              </option>
+
+              <option value="DATE_ASC">
+                Más antiguos
+              </option>
+
+              <option value="NAME_ASC">
+                Nombre A–Z
+              </option>
+
+              <option value="NAME_DESC">
+                Nombre Z–A
+              </option>
+            </select>
+
+          </div>
+
+        </section>
+
+        <section class="card contacts-card">
+
+          <div class="card__header contacts-card__header">
+
+            <div>
+
+              <h2 class="section-title margin-bottom-0">
+                Todos los contactos
+              </h2>
+
+              <p
+                class="contacts-result-count"
+                id="contacts-result-count"
+              >
+                Cargando contactos...
+              </p>
+
+            </div>
+
+          </div>
+
+          <div
+            class="contacts-table-wrapper"
+            id="contacts-table-wrapper"
+          >
+
+            <div
+              class="dashboard-state"
+              id="contacts-loading"
+            >
+              <span
+                class="dashboard-spinner"
+                aria-hidden="true"
+              ></span>
+
+              <p>Cargando contactos...</p>
+            </div>
+
+          </div>
+
+          <div
+            class="contacts-pagination"
+            id="contacts-pagination"
+            hidden
+          >
+
+            <p
+              class="contacts-pagination__summary"
+              id="pagination-summary"
+            >
+              Página 1 de 1
+            </p>
+
+            <div class="contacts-pagination__actions">
+
+              <button
+                class="button button--secondary"
+                id="previous-page-button"
+                type="button"
+                disabled
+              >
+                Anterior
+              </button>
+
+              <button
+                class="button button--secondary"
+                id="next-page-button"
+                type="button"
+                disabled
+              >
+                Siguiente
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script>
+    const sidebar =
+      document.getElementById("sidebar");
+
+    const sidebarOverlay =
+      document.getElementById("sidebarOverlay");
+
+    const mobileMenuButton =
+      document.getElementById("mobileMenuButton");
+
+    function openSidebar() {
+      sidebar.classList.add("is-open");
+      sidebarOverlay.classList.add("is-visible");
+
+      mobileMenuButton.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove("is-open");
+      sidebarOverlay.classList.remove("is-visible");
+
+      mobileMenuButton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+    }
+
+    mobileMenuButton.addEventListener("click", () => {
+      const isOpen =
+        sidebar.classList.contains("is-open");
+
+      if (isOpen) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+
+    sidebarOverlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) {
+        closeSidebar();
+      }
+    });
+  </script>
+
+  <script
+    type="module"
+    src="./js/contacts.js"
+  ></script>
+
+</body>
+</html>

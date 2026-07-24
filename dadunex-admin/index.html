@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Acceso al panel administrativo de Agrícola Dadunex"
+  >
+
+  <title>Iniciar sesión | Dadunex Admin</title>
+
+  <link rel="stylesheet" href="./css/common.css">
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body class="login-page">
+
+  <main class="login">
+
+    <section
+      class="login__card"
+      aria-labelledby="login-title"
+    >
+
+      <div class="login__brand">
+        <img
+          class="login__logo"
+          src="./assets/logo_dadunex.webp"
+          alt="Agrícola Dadunex"
+        >
+      </div>
+
+      <div class="login__header">
+        <span class="login__eyebrow">
+          Panel administrativo
+        </span>
+
+        <h1
+          class="login__title"
+          id="login-title"
+        >
+          Bienvenido
+        </h1>
+
+        <p class="login__description">
+          Ingresa tus credenciales para administrar los contactos recibidos
+          desde el sitio web.
+        </p>
+      </div>
+
+      <form
+        class="login__form"
+        id="login-form"
+        novalidate
+      >
+
+        <div class="form-group">
+          <label
+            class="form-label"
+            for="email"
+          >
+            Correo electrónico
+          </label>
+
+          <input
+            class="form-input"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="correo@dadunex.cl"
+            autocomplete="email"
+            required
+          >
+
+          <small
+            class="form-error"
+            id="email-error"
+          ></small>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-label"
+            for="password"
+          >
+            Contraseña
+          </label>
+
+          <div class="password-field">
+            <input
+              class="form-input password-field__input"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Ingresa tu contraseña"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              class="password-field__toggle"
+              type="button"
+              id="toggle-password"
+              aria-label="Mostrar contraseña"
+            >
+              Mostrar
+            </button>
+          </div>
+
+          <small
+            class="form-error"
+            id="password-error"
+          ></small>
+        </div>
+
+        <div
+          class="login__message"
+          id="login-message"
+          role="alert"
+          hidden
+        ></div>
+
+        <button
+          class="login__button"
+          id="login-button"
+          type="submit"
+        >
+          <span id="login-button-text">
+            Iniciar sesión
+          </span>
+
+          <span
+            class="login__spinner"
+            id="login-spinner"
+            aria-hidden="true"
+            hidden
+          ></span>
+        </button>
+
+      </form>
+
+      <footer class="login__footer">
+        <p>
+          Acceso exclusivo para personal autorizado.
+        </p>
+      </footer>
+
+    </section>
+
+  </main>
+
+  <script type="module" src="./js/auth.js"></script>
+
+</body>
+</html>

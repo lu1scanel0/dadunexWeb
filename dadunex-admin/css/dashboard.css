@@ -496,3 +496,57 @@
     color var(--transition-fast),
     background-color var(--transition-fast);
 }
+
+.dashboard-state {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: #68766c;
+  text-align: center;
+}
+
+.dashboard-state p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.dashboard-state strong {
+  color: #274c32;
+  font-size: 1rem;
+}
+
+.dashboard-state--empty {
+  background: #fbfdfb;
+  border-radius: 14px;
+}
+
+.dashboard-state--error {
+  color: #8e2929;
+  background: #fff6f6;
+  border: 1px solid #f0d0d0;
+  border-radius: 14px;
+}
+
+.dashboard-state--error strong {
+  color: #8e2929;
+}
+
+.dashboard-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(53, 118, 67, 0.18);
+  border-top-color: #357643;
+  border-radius: 50%;
+  animation: dashboard-spin 700ms linear infinite;
+}
+
+@keyframes dashboard-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -52,10 +52,6 @@
     height="70"
   >
 </a>
-            Dadunex
-          </span>
-
-        </a>
 
       </div>
 
@@ -80,7 +76,7 @@
 
         <a
             class="sidebar__link"
-            href="#contacts"
+            href="./contacts.html"
         >
             <span
             class="sidebar__icon"
@@ -91,47 +87,51 @@
 
             <span>Contactos</span>
 
-            <span class="sidebar__counter">
-            2
+            <span
+              class="sidebar__counter"
+              id="sidebar-new-contacts-count"
+              aria-label="Contactos nuevos"
+            >
+              0
             </span>
         </a>
 
         <div class="sidebar__submenu">
 
-            <a
+          <a
             class="sidebar__sublink"
-            href="#all-contacts"
-            >
+            href="./contacts.html"
+          >
             Todos
-            </a>
+          </a>
 
-            <a
+          <a
             class="sidebar__sublink"
-            href="#new-contacts"
-            >
+            href="./contacts.html?status=NEW"
+          >
             Nuevos
-            </a>
+          </a>
 
-            <a
+          <a
             class="sidebar__sublink"
-            href="#pending-contacts"
-            >
+            href="./contacts.html?status=PENDING"
+          >
             Pendientes
-            </a>
+          </a>
 
-            <a
+          <a
             class="sidebar__sublink"
-            href="#answered-contacts"
-            >
+            href="./contacts.html?status=ANSWERED"
+          >
             Respondidos
-            </a>
+          </a>
 
         </div>
 
         </div>
         <a
         class="sidebar__link"
-        href="#search"
+        href="./search.html"
         >
         <span
             class="sidebar__icon"
@@ -161,6 +161,7 @@
       <div class="sidebar__footer">
 
         <button
+          id="logout-button"
           class="button button--ghost sidebar__logout"
           type="button"
         >
@@ -207,17 +208,20 @@
 
           <div class="admin-header__user">
 
-            <div class="admin-header__user-info">
+        <div class="admin-header__user-info">
 
-              <span class="admin-header__user-name">
+            <span class="admin-header__user-name">
                 Luis Canelo
-              </span>
+            </span>
 
-              <span class="admin-header__user-role">
-                Administrador
-              </span>
+            <span
+                class="admin-header__user-role"
+                data-user-email
+            >
+                admin@dadunex.cl
+            </span>
 
-            </div>
+        </div>
 
             <span class="avatar">
               LC
@@ -270,13 +274,19 @@
 
             </div>
 
-            <p class="kpi-card__value">
-              0
-            </p>
+              <p
+                class="kpi-card__value"
+                id="new-contacts-count"
+              >
+                —
+              </p>
 
-            <p class="kpi-card__meta">
-              Sin datos cargados
-            </p>
+              <p
+                class="kpi-card__meta"
+                id="new-contacts-meta"
+              >
+                Cargando información...
+              </p>
 
           </article>
 
@@ -297,12 +307,18 @@
 
             </div>
 
-            <p class="kpi-card__value">
-              0
+            <p
+              class="kpi-card__value"
+              id="pending-contacts-count"
+            >
+              —
             </p>
 
-            <p class="kpi-card__meta">
-              Sin datos cargados
+            <p
+              class="kpi-card__meta"
+              id="pending-contacts-meta"
+            >
+              Cargando información...
             </p>
 
           </article>
@@ -324,12 +340,18 @@
 
             </div>
 
-            <p class="kpi-card__value">
-              0
+            <p
+              class="kpi-card__value"
+              id="answered-contacts-count"
+            >
+              —
             </p>
 
-            <p class="kpi-card__meta">
-              Sin datos cargados
+            <p
+              class="kpi-card__meta"
+              id="answered-contacts-meta"
+            >
+              Cargando información...
             </p>
 
           </article>
@@ -351,12 +373,18 @@
 
             </div>
 
-            <p class="kpi-card__value">
-              0
+            <p
+              class="kpi-card__value"
+              id="total-contacts-count"
+            >
+              —
             </p>
 
-            <p class="kpi-card__meta">
-              Sin datos cargados
+            <p
+              class="kpi-card__meta"
+              id="total-contacts-meta"
+            >
+              Cargando información...
             </p>
 
           </article>
@@ -374,7 +402,7 @@
 
             <a
             class="button button--secondary contacts-link"
-            href="#contacts"
+            href="./contacts.html"
             >
             <span>Ver contactos</span>
 
@@ -388,121 +416,20 @@
 
           </div>
 
-        <div class="recent-contacts">
-
-        <a
-            class="recent-contact"
-            href="#contact-luis"
+        <div
+          class="recent-contacts"
+          id="recent-contacts-list"
+          aria-live="polite"
         >
-            <span class="avatar avatar--small">
-            LC
-            </span>
 
-            <span class="recent-contact__identity">
-            <strong class="recent-contact__name">
-                Luis Canelo
-            </strong>
-
-            <span class="recent-contact__email">
-                luis@example.cl
-            </span>
-            </span>
-
-            <span class="recent-contact__subject">
-            Consulta sobre producción agrícola
-            </span>
-
-            <span class="recent-contact__date">
-            Hace 2 horas
-            </span>
-
-            <span class="badge badge--new">
-            Nuevo
-            </span>
-
+          <div class="dashboard-state" id="dashboard-loading">
             <span
-            class="recent-contact__arrow"
-            aria-hidden="true"
-            >
-            →
-            </span>
-        </a>
+              class="dashboard-spinner"
+              aria-hidden="true"
+            ></span>
 
-        <a
-            class="recent-contact"
-            href="#contact-maria"
-        >
-            <span class="avatar avatar--small">
-            MS
-            </span>
-
-            <span class="recent-contact__identity">
-            <strong class="recent-contact__name">
-                María Soto
-            </strong>
-
-            <span class="recent-contact__email">
-                maria@example.cl
-            </span>
-            </span>
-
-            <span class="recent-contact__subject">
-            Cotización de productos agrícolas
-            </span>
-
-            <span class="recent-contact__date">
-            Hace 5 horas
-            </span>
-
-            <span class="badge badge--pending">
-            Pendiente
-            </span>
-
-            <span
-            class="recent-contact__arrow"
-            aria-hidden="true"
-            >
-            →
-            </span>
-        </a>
-
-        <a
-            class="recent-contact"
-            href="#contact-pedro"
-        >
-            <span class="avatar avatar--small">
-            PD
-            </span>
-
-            <span class="recent-contact__identity">
-            <strong class="recent-contact__name">
-                Pedro Díaz
-            </strong>
-
-            <span class="recent-contact__email">
-                pedro@example.cl
-            </span>
-            </span>
-
-            <span class="recent-contact__subject">
-            Consulta por disponibilidad
-            </span>
-
-            <span class="recent-contact__date">
-            Ayer
-            </span>
-
-            <span class="badge badge--answered">
-            Respondido
-            </span>
-
-            <span
-            class="recent-contact__arrow"
-            aria-hidden="true"
-            >
-            →
-            </span>
-        </a>
+            <p>Cargando contactos recientes...</p>
+          </div>
 
         </div>
 
@@ -550,6 +477,10 @@
       }
     });
   </script>
+  <script 
+    type="module" 
+    src="./js/dashboard.js"
+  ></script>
 
 </body>
 </html>

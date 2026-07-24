@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="robots"
+    content="noindex, nofollow"
+  >
+
+  <title>Detalle del contacto | Dadunex Admin</title>
+
+  <link
+    rel="stylesheet"
+    href="./css/common.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/dashboard.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/contact.css"
+  >
+</head>
+
+<body>
+
+  <div class="admin-layout">
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+      aria-label="Navegación principal"
+    >
+
+      <div class="sidebar__header">
+
+        <a
+          class="sidebar__brand"
+          href="./dashboard.html"
+          aria-label="Ir al dashboard de Dadunex"
+        >
+          <img
+            class="sidebar__brand-logo"
+            src="./assets/logo_dadunex_bco.webp"
+            alt="Agrícola Dadunex"
+            width="170"
+            height="70"
+          >
+        </a>
+
+      </div>
+
+      <nav class="sidebar__nav">
+
+        <a
+          class="sidebar__link"
+          href="./dashboard.html"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ◫
+          </span>
+
+          <span>Dashboard</span>
+        </a>
+
+        <div class="sidebar__section">
+
+          <a
+            class="sidebar__link is-active"
+            href="./contacts.html"
+          >
+            <span
+              class="sidebar__icon"
+              aria-hidden="true"
+            >
+              ✉
+            </span>
+
+            <span>Contactos</span>
+
+            <span
+              class="sidebar__counter"
+              id="sidebar-new-contacts-count"
+            >
+              0
+            </span>
+          </a>
+
+          <div class="sidebar__submenu">
+
+            <a
+              class="sidebar__sublink"
+              href="./contacts.html"
+            >
+              Todos
+            </a>
+
+            <a
+              class="sidebar__sublink"
+              href="./contacts.html?status=NEW"
+            >
+              Nuevos
+            </a>
+
+            <a
+              class="sidebar__sublink"
+              href="./contacts.html?status=PENDING"
+            >
+              Pendientes
+            </a>
+
+            <a
+              class="sidebar__sublink"
+              href="./contacts.html?status=ANSWERED"
+            >
+              Respondidos
+            </a>
+
+          </div>
+
+        </div>
+
+        <a
+          class="sidebar__link"
+          href="./contacts.html#search"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ⌕
+          </span>
+
+          <span>Buscar</span>
+        </a>
+
+        <a
+          class="sidebar__link"
+          href="#settings"
+        >
+          <span
+            class="sidebar__icon"
+            aria-hidden="true"
+          >
+            ⚙
+          </span>
+
+          <span>Configuración</span>
+        </a>
+
+      </nav>
+
+      <div class="sidebar__footer">
+
+        <button
+          class="button button--ghost sidebar__logout"
+          id="logout-button"
+          type="button"
+        >
+          Cerrar sesión
+        </button>
+
+      </div>
+
+    </aside>
+
+    <button
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      type="button"
+      aria-label="Cerrar menú lateral"
+    ></button>
+
+    <div class="admin-main">
+
+      <header class="admin-header">
+
+        <div class="admin-header__left">
+
+          <button
+            class="button button--ghost button--icon mobile-menu-button"
+            id="mobileMenuButton"
+            type="button"
+            aria-label="Abrir menú lateral"
+            aria-controls="sidebar"
+            aria-expanded="false"
+          >
+            ☰
+          </button>
+
+          <h1 class="admin-header__title">
+            Detalle del contacto
+          </h1>
+
+        </div>
+
+        <div class="admin-header__right">
+
+          <div class="admin-header__user">
+
+            <div class="admin-header__user-info">
+
+              <span class="admin-header__user-name">
+                Luis Canelo
+              </span>
+
+              <span
+                class="admin-header__user-role"
+                data-user-email
+              >
+                admin@dadunex.cl
+              </span>
+
+            </div>
+
+            <span class="avatar">
+              LC
+            </span>
+
+          </div>
+
+        </div>
+
+      </header>
+
+      <main class="admin-content">
+
+        <div class="contact-page-header">
+
+          <a
+            class="contact-back-link"
+            href="./contacts.html"
+          >
+            <span aria-hidden="true">←</span>
+            <span>Volver a contactos</span>
+          </a>
+
+          <div class="contact-page-header__content">
+
+            <div>
+
+              <p class="contact-page-header__eyebrow">
+                Ficha de contacto
+              </p>
+
+              <h2
+                class="page-title"
+                id="contact-page-title"
+              >
+                Cargando contacto...
+              </h2>
+
+              <p
+                class="page-description"
+                id="contact-page-description"
+              >
+                Recuperando información del mensaje.
+              </p>
+
+            </div>
+
+            <span
+              class="badge badge--new"
+              id="contact-header-status"
+              hidden
+            >
+              Nuevo
+            </span>
+
+          </div>
+
+        </div>
+
+        <div
+          class="contact-loading card"
+          id="contact-loading"
+        >
+          <span
+            class="dashboard-spinner"
+            aria-hidden="true"
+          ></span>
+
+          <p>Cargando detalle del contacto...</p>
+        </div>
+
+        <div
+          class="contact-layout"
+          id="contact-content"
+          hidden
+        >
+
+          <div class="contact-layout__main">
+
+            <section class="card contact-section">
+
+              <div class="card__header">
+
+                <div>
+
+                  <h3 class="section-title margin-bottom-0">
+                    Información del contacto
+                  </h3>
+
+                  <p class="contact-section__description">
+                    Datos entregados desde el formulario web.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="contact-info-grid">
+
+                <div class="contact-info-item">
+
+                  <span class="contact-info-item__label">
+                    Nombre
+                  </span>
+
+                  <strong
+                    class="contact-info-item__value"
+                    id="contact-name"
+                  >
+                    —
+                  </strong>
+
+                </div>
+
+                <div class="contact-info-item">
+
+                  <span class="contact-info-item__label">
+                    Correo electrónico
+                  </span>
+
+                  <a
+                    class="contact-info-item__link"
+                    id="contact-email"
+                    href="#"
+                  >
+                    —
+                  </a>
+
+                </div>
+
+                <div class="contact-info-item">
+
+                  <span class="contact-info-item__label">
+                    Teléfono
+                  </span>
+
+                  <a
+                    class="contact-info-item__link"
+                    id="contact-phone"
+                    href="#"
+                  >
+                    —
+                  </a>
+
+                </div>
+
+                <div class="contact-info-item">
+
+                  <span class="contact-info-item__label">
+                    Fecha de recepción
+                  </span>
+
+                  <span
+                    class="contact-info-item__value"
+                    id="contact-created-at"
+                  >
+                    —
+                  </span>
+
+                </div>
+
+                <div class="contact-info-item">
+
+                  <span class="contact-info-item__label">
+                    Última actualización
+                  </span>
+
+                  <span
+                    class="contact-info-item__value"
+                    id="contact-updated-at"
+                  >
+                    —
+                  </span>
+
+                </div>
+
+                <div class="contact-info-item">
+
+                  <span class="contact-info-item__label">
+                    Estado del correo
+                  </span>
+
+                  <span
+                    class="contact-info-item__value"
+                    id="contact-email-status"
+                  >
+                    —
+                  </span>
+
+                </div>
+
+              </div>
+
+            </section>
+
+            <section class="card contact-section">
+
+              <div class="card__header">
+
+                <h3 class="section-title margin-bottom-0">
+                  Mensaje recibido
+                </h3>
+
+              </div>
+
+              <div class="contact-message">
+
+                <div class="contact-message__subject">
+
+                  <span class="contact-message__label">
+                    Asunto
+                  </span>
+
+                  <h4 id="contact-subject">
+                    —
+                  </h4>
+
+                </div>
+
+                <div class="contact-message__body">
+
+                  <span class="contact-message__label">
+                    Mensaje
+                  </span>
+
+                  <p id="contact-message">
+                    —
+                  </p>
+
+                </div>
+
+              </div>
+
+            </section>
+
+          </div>
+
+          <aside class="contact-layout__sidebar">
+
+            <section class="card contact-section">
+
+              <div class="card__header">
+
+                <h3 class="section-title margin-bottom-0">
+                  Gestión
+                </h3>
+
+              </div>
+
+              <form
+                class="contact-form"
+                id="contact-form"
+              >
+
+                <div class="contact-form__group">
+
+                  <label
+                    class="form-label"
+                    for="contact-status"
+                  >
+                    Estado
+                  </label>
+
+                  <select
+                    class="form-select"
+                    id="contact-status"
+                    name="status"
+                  >
+                    <option value="NEW">
+                      Nuevo
+                    </option>
+
+                    <option value="PENDING">
+                      Pendiente
+                    </option>
+
+                    <option value="ANSWERED">
+                      Respondido
+                    </option>
+                  </select>
+
+                </div>
+
+                <div class="contact-form__group">
+
+                  <label
+                    class="form-label"
+                    for="contact-notes"
+                  >
+                    Notas internas
+                  </label>
+
+                  <textarea
+                    class="form-textarea"
+                    id="contact-notes"
+                    name="notes"
+                    rows="8"
+                    placeholder="Agrega observaciones o información de seguimiento"
+                  ></textarea>
+
+                  <small class="form-help">
+                    Estas notas no son visibles para el contacto.
+                  </small>
+
+                </div>
+
+                <div
+                  class="contact-form__message"
+                  id="contact-form-message"
+                  role="status"
+                  hidden
+                ></div>
+
+                <button
+                  class="button button--primary contact-save-button"
+                  id="contact-save-button"
+                  type="submit"
+                >
+                  <span id="contact-save-text">
+                    Guardar cambios
+                  </span>
+
+                  <span
+                    class="contact-save-spinner"
+                    id="contact-save-spinner"
+                    aria-hidden="true"
+                    hidden
+                  ></span>
+                </button>
+
+              </form>
+
+            </section>
+
+          </aside>
+
+        </div>
+
+        <div
+          class="contact-error card"
+          id="contact-error"
+          hidden
+        >
+
+          <strong id="contact-error-title">
+            No fue posible cargar el contacto
+          </strong>
+
+          <p id="contact-error-message">
+            Revisa el enlace e intenta nuevamente.
+          </p>
+
+          <a
+            class="button button--secondary"
+            href="./contacts.html"
+          >
+            Volver a contactos
+          </a>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script>
+    const sidebar =
+      document.getElementById("sidebar");
+
+    const sidebarOverlay =
+      document.getElementById("sidebarOverlay");
+
+    const mobileMenuButton =
+      document.getElementById("mobileMenuButton");
+
+    function openSidebar() {
+      sidebar.classList.add("is-open");
+      sidebarOverlay.classList.add("is-visible");
+
+      mobileMenuButton.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove("is-open");
+      sidebarOverlay.classList.remove("is-visible");
+
+      mobileMenuButton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+    }
+
+    mobileMenuButton.addEventListener("click", () => {
+      const isOpen =
+        sidebar.classList.contains("is-open");
+
+      if (isOpen) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+
+    sidebarOverlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) {
+        closeSidebar();
+      }
+    });
+  </script>
+
+  <script
+    type="module"
+    src="./js/contact.js"
+  ></script>
+
+</body>
+</html>
