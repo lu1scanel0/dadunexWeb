@@ -64,17 +64,16 @@ function initializeLogout() {
     getElement("logout-button");
 
   if (!logoutButton) {
-    console.warn(
-      'No se encontró el botón con id="logout-button".'
-    );
-
     return;
   }
 
-  logoutButton.addEventListener("click", () => {
-    removeSession();
-    window.location.replace("./index.html");
-  });
+  logoutButton.addEventListener(
+    "click",
+    () => {
+      removeSession();
+      window.location.replace("./index.html");
+    }
+  );
 }
 
 function getInitials(name = "") {
@@ -676,12 +675,50 @@ function applyStatusFromUrl() {
   }
 }
 
+function focusSearchFromUrl() {
+  if (window.location.hash !== "#search") {
+    return;
+  }
+
+  const searchInput =
+    getElement("contacts-search");
+
+  if (!searchInput) {
+    return;
+  }
+
+  searchInput.focus();
+
+  searchInput.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  window.setTimeout(() => {
+    searchInput.focus();
+  }, 350);
+}
+
+function initializeSearchNavigation() {
+  window.addEventListener(
+    "hashchange",
+    focusSearchFromUrl
+  );
+}
+
 function renderError() {
   const wrapper =
     getElement("contacts-table-wrapper");
 
   const resultCount =
     getElement("contacts-result-count");
+
+  const pagination =
+    getElement("contacts-pagination");
+
+  if (pagination) {
+    pagination.hidden = true;
+  }
 
   if (resultCount) {
     resultCount.textContent =
@@ -719,12 +756,49 @@ function renderError() {
     );
 }
 
+function setFiltersDisabled(isDisabled) {
+  const searchInput =
+    getElement("contacts-search");
+
+  const statusFilter =
+    getElement("status-filter");
+
+  const sortSelect =
+    getElement("contacts-sort");
+
+  if (searchInput) {
+    searchInput.disabled = isDisabled;
+  }
+
+  if (statusFilter) {
+    statusFilter.disabled = isDisabled;
+  }
+
+  if (sortSelect) {
+    sortSelect.disabled = isDisabled;
+  }
+
+  document
+    .querySelectorAll("[data-status-filter]")
+    .forEach((button) => {
+      button.disabled = isDisabled;
+    });
+}
+
 async function loadContacts() {
+  setFiltersDisabled(true);
   const wrapper =
     getElement("contacts-table-wrapper");
 
   const resultCount =
     getElement("contacts-result-count");
+
+  const pagination =
+    getElement("contacts-pagination");
+
+  if (pagination) {
+    pagination.hidden = true;
+  }
 
   if (resultCount) {
     resultCount.textContent =
@@ -747,6 +821,10 @@ async function loadContacts() {
   try {
     state.contacts = await getContacts();
 
+    setFiltersDisabled(false);
+    updateSidebarCounter();
+    renderContacts();
+
     updateSidebarCounter();
     renderContacts();
   } catch (error) {
@@ -754,7 +832,7 @@ async function loadContacts() {
       "Error al cargar los contactos:",
       error
     );
-
+    setFiltersDisabled(false);
     renderError();
   }
 }
@@ -770,7 +848,9 @@ async function initializeContactsPage() {
   initializeLogout();
   initializeFilters();
   initializePagination();
+  initializeSearchNavigation();
   applyStatusFromUrl();
+  focusSearchFromUrl();
 
   await loadContacts();
 }

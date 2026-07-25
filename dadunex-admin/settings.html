@@ -29,6 +29,11 @@
     rel="stylesheet"
     href="./css/contacts.css"
   >
+
+  <link
+    rel="stylesheet"
+    href="./css/settings.css"
+/>
 </head>
 
 <body>
@@ -154,7 +159,7 @@
 
         <a
           class="sidebar__link"
-          href="./settings.html"
+          href="#settings"
         >
           <span
             class="sidebar__icon"
@@ -241,204 +246,221 @@
 
       </header>
 
-      <main class="admin-content">
-
-        <div class="admin-page-header">
-
+      <main class="main-content settings-page">
+        <header class="page-header">
           <div>
-
-            <h2 class="page-title">
-              Gestión de contactos
-            </h2>
-
-            <p class="page-description">
-              Revisa y organiza los mensajes recibidos desde dadunex.cl.
+            <p class="page-eyebrow">
+              Administración
             </p>
 
-          </div>
+            <h1 class="page-title">
+              Configuración
+            </h1>
 
-        </div>
+            <p class="page-description">
+              Información de la cuenta, conexión y versión del panel administrativo.
+            </p>
+          </div>
+        </header>
 
         <section
-          class="contacts-toolbar card"
-          aria-label="Búsqueda y filtros"
+          class="settings-grid"
+          aria-label="Configuración del panel"
         >
+          <!-- Cuenta -->
+          <article class="settings-card">
+            <header class="settings-card__header">
+              <div class="settings-card__icon" aria-hidden="true">
+                👤
+              </div>
 
-          <div class="contacts-toolbar__search">
+              <div>
+                <h2 class="settings-card__title">
+                  Cuenta
+                </h2>
 
-            <label
-              class="form-label"
-              for="contacts-search"
-            >
-              Buscar contacto
-            </label>
+                <p class="settings-card__description">
+                  Información del usuario autenticado.
+                </p>
+              </div>
+            </header>
 
-            <div class="search-field">
+            <dl class="settings-list">
+              <div class="settings-list__item">
+                <dt>Empresa</dt>
+                <dd>Agrícola Dadunex</dd>
+              </div>
 
-              <span
-                class="search-field__icon"
-                aria-hidden="true"
-              >
-                ⌕
-              </span>
+              <div class="settings-list__item">
+                <dt>Usuario</dt>
+                <dd id="settings-user-email">
+                  Cargando...
+                </dd>
+              </div>
 
-              <input
-                class="form-input search-field__input"
-                id="contacts-search"
-                type="search"
-                placeholder="Nombre, correo, teléfono o asunto"
-                autocomplete="off"
-              >
+              <div class="settings-list__item">
+                <dt>Estado de sesión</dt>
+                <dd>
+                  <span
+                    class="settings-status settings-status--loading"
+                    id="settings-session-status"
+                  >
+                    Verificando...
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </article>
 
-            </div>
+          <!-- Conexión -->
+          <article class="settings-card">
+            <header class="settings-card__header">
+              <div class="settings-card__icon" aria-hidden="true">
+                ☁
+              </div>
 
-          </div>
+              <div>
+                <h2 class="settings-card__title">
+                  Infraestructura
+                </h2>
 
-          <div class="contacts-toolbar__filter">
+                <p class="settings-card__description">
+                  Estado de los servicios utilizados por el panel.
+                </p>
+              </div>
+            </header>
 
-            <label
-              class="form-label"
-              for="status-filter"
-            >
-              Estado
-            </label>
+            <dl class="settings-list">
+              <div class="settings-list__item">
+                <dt>Región AWS</dt>
+                <dd id="settings-aws-region">
+                  —
+                </dd>
+              </div>
 
-            <select
-              class="form-select"
-              id="status-filter"
-            >
-              <option value="ALL">
-                Todos
-              </option>
+              <div class="settings-list__item">
+                <dt>API administrativa</dt>
+                <dd>
+                  <span
+                    class="settings-status settings-status--loading"
+                    id="settings-api-status"
+                  >
+                    Verificando...
+                  </span>
+                </dd>
+              </div>
 
-              <option value="NEW">
-                Nuevos
-              </option>
+              <div class="settings-list__item">
+                <dt>Amazon Cognito</dt>
+                <dd>
+                  <span
+                    class="settings-status settings-status--loading"
+                    id="settings-cognito-status"
+                  >
+                    Verificando...
+                  </span>
+                </dd>
+              </div>
+            </dl>
 
-              <option value="PENDING">
-                Pendientes
-              </option>
-
-              <option value="ANSWERED">
-                Respondidos
-              </option>
-            </select>
-
-          </div>
-
-          <div class="contacts-toolbar__sort">
-
-            <label
-              class="form-label"
-              for="contacts-sort"
-            >
-              Ordenar por
-            </label>
-
-            <select
-              class="form-select"
-              id="contacts-sort"
-            >
-              <option value="DATE_DESC">
-                Más recientes
-              </option>
-
-              <option value="DATE_ASC">
-                Más antiguos
-              </option>
-
-              <option value="NAME_ASC">
-                Nombre A–Z
-              </option>
-
-              <option value="NAME_DESC">
-                Nombre Z–A
-              </option>
-            </select>
-
-          </div>
-
-        </section>
-
-        <section class="card contacts-card">
-
-          <div class="card__header contacts-card__header">
-
-            <div>
-
-              <h2 class="section-title margin-bottom-0">
-                Todos los contactos
-              </h2>
-
-              <p
-                class="contacts-result-count"
-                id="contacts-result-count"
-              >
-                Cargando contactos...
-              </p>
-
-            </div>
-
-          </div>
-
-          <div
-            class="contacts-table-wrapper"
-            id="contacts-table-wrapper"
-          >
-
-            <div
-              class="dashboard-state"
-              id="contacts-loading"
+            <button
+              class="button button--secondary settings-check-button"
+              id="settings-check-api-button"
+              type="button"
             >
               <span
-                class="dashboard-spinner"
+                class="button-spinner"
+                id="settings-check-api-spinner"
+                hidden
                 aria-hidden="true"
               ></span>
 
-              <p>Cargando contactos...</p>
-            </div>
+              <span id="settings-check-api-text">
+                Verificar conexión
+              </span>
+            </button>
+          </article>
 
-          </div>
+          <!-- Sistema -->
+          <article class="settings-card">
+            <header class="settings-card__header">
+              <div class="settings-card__icon" aria-hidden="true">
+                ⚙
+              </div>
 
-          <div
-            class="contacts-pagination"
-            id="contacts-pagination"
-            hidden
-          >
+              <div>
+                <h2 class="settings-card__title">
+                  Sistema
+                </h2>
 
-            <p
-              class="contacts-pagination__summary"
-              id="pagination-summary"
-            >
-              Página 1 de 1
-            </p>
+                <p class="settings-card__description">
+                  Información de la versión instalada.
+                </p>
+              </div>
+            </header>
 
-            <div class="contacts-pagination__actions">
+            <dl class="settings-list">
+              <div class="settings-list__item">
+                <dt>Aplicación</dt>
+                <dd>Dadunex Admin</dd>
+              </div>
+
+              <div class="settings-list__item">
+                <dt>Versión</dt>
+                <dd>v1.0.0</dd>
+              </div>
+
+              <div class="settings-list__item">
+                <dt>Entorno</dt>
+                <dd id="settings-environment">
+                  Desarrollo local
+                </dd>
+              </div>
+            </dl>
+          </article>
+
+          <!-- Seguridad -->
+          <article class="settings-card">
+            <header class="settings-card__header">
+              <div class="settings-card__icon" aria-hidden="true">
+                🔒
+              </div>
+
+              <div>
+                <h2 class="settings-card__title">
+                  Seguridad
+                </h2>
+
+                <p class="settings-card__description">
+                  Acciones relacionadas con la sesión actual.
+                </p>
+              </div>
+            </header>
+
+            <div class="settings-security">
+              <p>
+                Al cerrar sesión se eliminará la sesión almacenada en este
+                dispositivo y deberás ingresar nuevamente tus credenciales.
+              </p>
 
               <button
-                class="button button--secondary"
-                id="previous-page-button"
+                class="button button--danger"
+                id="settings-logout-button"
                 type="button"
-                disabled
               >
-                Anterior
+                Cerrar sesión
               </button>
-
-              <button
-                class="button button--secondary"
-                id="next-page-button"
-                type="button"
-                disabled
-              >
-                Siguiente
-              </button>
-
             </div>
-
-          </div>
-
+          </article>
         </section>
 
+        <div
+          class="settings-message"
+          id="settings-message"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
       </main>
 
     </div>
@@ -499,7 +521,7 @@
   </script>
 
 <script src="./js/config.js"></script>
-<script type="module" src="./js/contacts.js"></script>
+<script type="module" src="./js/settings.js"></script>
 
 </body>
 </html>

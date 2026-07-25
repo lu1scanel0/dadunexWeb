@@ -230,16 +230,42 @@ function renderContact(contact) {
   }
 
   renderHeaderStatus(contact.status);
+    console.log("RenderContact ejecutado");
+    const loading = getElement("contact-loading");
+    const content = getElement("contact-content");
+    console.log(content);
+    const error = getElement("contact-error");
 
-  getElement("contact-loading").hidden = true;
-  getElement("contact-error").hidden = true;
-  getElement("contact-content").hidden = false;
-}
+    if (loading) {
+    loading.style.display = "none";
+    }
+
+    if (content) {
+      content.hidden = false;
+      content.removeAttribute("hidden");
+      content.style.display = "grid";
+    }
+
+    if (error) {
+    error.style.display = "none";
+    }
+  }
 
 function showError(title, message) {
-  getElement("contact-loading").hidden = true;
-  getElement("contact-content").hidden = true;
-  getElement("contact-error").hidden = false;
+  const loading = getElement("contact-loading").hidden = true;
+  const content = getElement("contact-content").hidden = true;
+  const error = getElement("contact-error").hidden = false;
+
+  if (loading) {
+    loading.style.display = "none";
+  }
+
+  if (content) {
+    content.style.display = "none";
+  }
+  if (error) {
+    error.style.display = "block";
+  }
 
   setText(
     "contact-error-title",

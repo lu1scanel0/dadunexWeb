@@ -48,23 +48,6 @@ function showAuthenticatedUser(session) {
   }
 }
 
-function initializeLogout() {
-  const logoutButton = getElement("logout-button");
-
-  if (!logoutButton) {
-    console.warn(
-      'No se encontró el botón con id="logout-button".'
-    );
-
-    return;
-  }
-
-  logoutButton.addEventListener("click", () => {
-    removeSession();
-    window.location.replace("./index.html");
-  });
-}
-
 function getInitials(name = "") {
   const words = name
     .trim()
@@ -225,7 +208,9 @@ function createContactElement(contact) {
 
   contactLink.className = "recent-contact";
   contactLink.href =
-    `#contact-${encodeURIComponent(contact.contactId)}`;
+  `./contact.html?id=${encodeURIComponent(
+    contact.contactId
+  )}`;
 
   const avatar = document.createElement("span");
 
@@ -408,6 +393,23 @@ async function loadDashboard() {
 
     renderDashboardError();
   }
+}
+
+function initializeLogout() {
+  const logoutButton =
+    getElement("logout-button");
+
+  if (!logoutButton) {
+    return;
+  }
+
+  logoutButton.addEventListener(
+    "click",
+    () => {
+      removeSession();
+      window.location.replace("./index.html");
+    }
+  );
 }
 
 async function initializeDashboard() {
