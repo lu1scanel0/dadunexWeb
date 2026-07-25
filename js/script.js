@@ -181,13 +181,14 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
 
             announce("Mensaje enviado correctamente.");
             // Registrar conversión en Google Analytics
-            if (typeof gtag === "function") {
-                gtag("event", "generate_lead", {
-                    form_name: "Contacto Dadunex",
-                    lead_type: "Mayorista",
-                    method: "Formulario Web"
-                });
-            }
+           window.dataLayer = window.dataLayer || [];
+
+            window.dataLayer.push({
+                event: "generate_lead",
+                form_name: "Contacto Dadunex",
+                lead_type: "Mayorista",
+                method: "Formulario Web"
+            });
             await Swal.fire({
                 icon: "success",
                 title: "¡Mensaje enviado!",
