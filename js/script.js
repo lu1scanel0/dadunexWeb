@@ -154,6 +154,21 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
 
             return;
         }
+        const turnstileToken =
+            document.querySelector(
+                '[name="cf-turnstile-response"]'
+            )?.value?.trim() || "";
+
+        if (!turnstileToken) {
+            await Swal.fire({
+                icon: "warning",
+                title: "Verificación requerida",
+                text: "Completa la validación de seguridad.",
+                confirmButtonColor: "#198754"
+            });
+
+            return;
+        }
 
         setSubmitting(true);
         announce("Enviando mensaje.");
@@ -178,7 +193,10 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(getFormData())
+                body: JSON.stringify({
+                ...getFormData(),
+                turnstileToken
+})
             });
 
             let result = {};
@@ -213,7 +231,9 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
             });
 
             form.reset();
-            turnstile.reset();
+            if (window.turnstile) {
+                window.turnstile.reset();
+            }
             updateMessageCounter();
 
             Object.values(fields).forEach((field) => {
