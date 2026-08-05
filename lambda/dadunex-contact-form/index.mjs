@@ -3,7 +3,7 @@ import {
   SendEmailCommand
 } from "@aws-sdk/client-sesv2";
 
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 
 import {
   DynamoDBClient
@@ -20,9 +20,15 @@ import {
  *
  * Estas variables se configuran en AWS Lambda:
  *
- * DESTINATION_EMAIL=luis.canelolastra@gmail.com
+ * DESTINATION_EMAIL=correo-destino@ejemplo.cl
  * FROM_EMAIL=contacto@dadunex.cl
  * CONTACTS_TABLE=dadunex-prod-contacts
+ * RATE_LIMIT_TABLE=dadunex-contact-rate-limit
+ * TURNSTILE_ENABLED=false
+ * TURNSTILE_SECRET_KEY=secreto-de-cloudflare
+ *
+ * TURNSTILE_SECRET_KEY solo es obligatorio cuando
+ * TURNSTILE_ENABLED=true.
  *
  * AWS_REGION no se configura manualmente.
  * Lambda la proporciona automáticamente.
@@ -60,6 +66,32 @@ const documentClient = DynamoDBDocumentClient.from(
 const DESTINATION_EMAIL = process.env.DESTINATION_EMAIL;
 const FROM_EMAIL = process.env.FROM_EMAIL;
 const CONTACTS_TABLE = process.env.CONTACTS_TABLE;
+const RATE_LIMIT_TABLE = process.env.RATE_LIMIT_TABLE;
+
+const TURNSTILE_ENABLED =
+  String(process.env.TURNSTILE_ENABLED ?? "false").toLowerCase() === "true";
+
+const TURNSTILE_SECRET_KEY =
+  process.env.TURNSTILE_SECRET_KEY ?? "";
+
+const TURNSTILE_ALLOWED_HOSTNAMES = new Set([
+  "dadunex.cl",
+  "www.dadunex.cl"
+]);
+
+const RATE_LIMIT_RULES = Object.freeze({
+  IP: {
+    prefix: "IP",
+    limit: 5,
+    windowSeconds: 15 * 60
+  },
+  EMAIL: {
+    prefix: "EMAIL",
+    limit: 5,
+    windowSeconds: 60 * 60
+  }
+});
+
 const EMAIL_STATUS = Object.freeze({
   PENDING: "PENDING",
   SENT: "SENT",
@@ -101,17 +133,30 @@ function getCorsHeaders(event) {
     "Access-Control-Allow-Origin": allowedOrigin,
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST,OPTIONS",
-    "Cache-Control": "no-store"
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy":
+      "camera=(), microphone=(), geolocation=()"
   };
 }
 
 /**
  * Crea una respuesta compatible con API Gateway.
  */
-function createResponse(event, statusCode, message) {
+function createResponse(
+  event,
+  statusCode,
+  message,
+  additionalHeaders = {}
+) {
   return {
     statusCode,
-    headers: getCorsHeaders(event),
+    headers: {
+      ...getCorsHeaders(event),
+      ...additionalHeaders
+    },
     body: JSON.stringify({
       message
     })
@@ -240,6 +285,180 @@ function getRequestMetadata(event) {
       event?.headers?.["User-Agent"] ||
       "no-disponible"
   };
+}
+
+
+/**
+ * Error controlado utilizado cuando se excede una cuota.
+ */
+class RateLimitExceededError extends Error {
+  constructor(retryAfterSeconds) {
+    super("RATE_LIMIT_EXCEEDED");
+    this.name = "RateLimitExceededError";
+    this.retryAfterSeconds = retryAfterSeconds;
+  }
+}
+
+/**
+ * Genera una huella SHA-256 para no guardar directamente
+ * el correo ni la IP en la tabla de limitación.
+ */
+function hashRateLimitValue(value) {
+  return createHash("sha256")
+    .update(String(value))
+    .digest("hex");
+}
+
+/**
+ * Obtiene la IP de origen entregada por API Gateway.
+ */
+function getSourceIp(event) {
+  return (
+    event?.requestContext?.http?.sourceIp ||
+    event?.requestContext?.identity?.sourceIp ||
+    ""
+  );
+}
+
+/**
+ * Consume una unidad del límite configurado.
+ *
+ * Cada ventana utiliza una clave independiente. DynamoDB
+ * incrementa el contador de forma atómica y rechaza la
+ * actualización cuando se alcanza el máximo.
+ */
+async function consumeRateLimit({
+  prefix,
+  value,
+  limit,
+  windowSeconds
+}) {
+  if (!value) {
+    return;
+  }
+
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const windowStart =
+    Math.floor(nowSeconds / windowSeconds) * windowSeconds;
+  const windowEnd = windowStart + windowSeconds;
+
+  const rateKey = [
+    prefix,
+    hashRateLimitValue(value),
+    windowStart
+  ].join("#");
+
+  const command = new UpdateCommand({
+    TableName: RATE_LIMIT_TABLE,
+
+    Key: {
+      rateKey
+    },
+
+    UpdateExpression: [
+      "SET expiresAt = :expiresAt,",
+      "updatedAt = :updatedAt,",
+      "windowEnd = :windowEnd,",
+      "limitValue = :limitValue",
+      "ADD requestCount :one"
+    ].join(" "),
+
+    ConditionExpression:
+      "attribute_not_exists(requestCount) OR requestCount < :limit",
+
+    ExpressionAttributeValues: {
+      ":one": 1,
+      ":limit": limit,
+      ":limitValue": limit,
+      ":expiresAt": windowEnd + 24 * 60 * 60,
+      ":updatedAt": new Date().toISOString(),
+      ":windowEnd": windowEnd
+    }
+  });
+
+  try {
+    await documentClient.send(command);
+  } catch (error) {
+    if (error?.name === "ConditionalCheckFailedException") {
+      throw new RateLimitExceededError(
+        Math.max(1, windowEnd - nowSeconds)
+      );
+    }
+
+    throw error;
+  }
+}
+
+/**
+ * Aplica límites independientes:
+ *
+ * - 5 envíos por IP cada 15 minutos.
+ * - 5 envíos por correo cada 60 minutos.
+ */
+async function enforceContactRateLimits({
+  email,
+  sourceIp
+}) {
+  await consumeRateLimit({
+    ...RATE_LIMIT_RULES.IP,
+    value: sourceIp
+  });
+
+  await consumeRateLimit({
+    ...RATE_LIMIT_RULES.EMAIL,
+    value: email
+  });
+}
+
+/**
+ * Valida el token de Cloudflare Turnstile.
+ *
+ * La función solo ejecuta esta verificación cuando
+ * TURNSTILE_ENABLED=true.
+ */
+async function validateTurnstile({
+  token,
+  sourceIp
+}) {
+  if (!TURNSTILE_ENABLED) {
+    return true;
+  }
+
+  if (!token || !TURNSTILE_SECRET_KEY) {
+    return false;
+  }
+
+  const verificationBody = new URLSearchParams({
+    secret: TURNSTILE_SECRET_KEY,
+    response: token
+  });
+
+  if (sourceIp) {
+    verificationBody.set("remoteip", sourceIp);
+  }
+
+  const response = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/x-www-form-urlencoded"
+      },
+      body: verificationBody
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("TURNSTILE_SERVICE_ERROR");
+  }
+
+  const result = await response.json();
+
+  return (
+    result?.success === true &&
+    TURNSTILE_ALLOWED_HOSTNAMES.has(result?.hostname)
+  );
 }
 
 /**
@@ -872,9 +1091,15 @@ export const handler = async (event) => {
     /*
      * Verifica la configuración de Lambda.
      */
-if (!DESTINATION_EMAIL || !FROM_EMAIL || !CONTACTS_TABLE) {
+if (
+  !DESTINATION_EMAIL ||
+  !FROM_EMAIL ||
+  !CONTACTS_TABLE ||
+  !RATE_LIMIT_TABLE ||
+  (TURNSTILE_ENABLED && !TURNSTILE_SECRET_KEY)
+) {
   console.error(
-    "Faltan DESTINATION_EMAIL, FROM_EMAIL o CONTACTS_TABLE."
+    "Faltan variables obligatorias de configuración."
   );
 
   return createResponse(
@@ -892,6 +1117,12 @@ if (!DESTINATION_EMAIL || !FROM_EMAIL || !CONTACTS_TABLE) {
     const subject = cleanHeader(body.subject, 150);
     const message = cleanText(body.message, 2000);
     const website = cleanText(body.website, 200);
+
+    const turnstileToken = cleanText(
+      body.turnstileToken ||
+      body["cf-turnstile-response"],
+      2048
+    );
 
     /*
      * Honeypot antispam.
@@ -965,6 +1196,60 @@ if (!DESTINATION_EMAIL || !FROM_EMAIL || !CONTACTS_TABLE) {
         400,
         "El mensaje es demasiado corto."
       );
+    }
+
+    /*
+     * Valida Turnstile antes de consumir la cuota y antes de
+     * realizar escrituras o envíos mediante servicios AWS.
+     */
+    const turnstileIsValid = await validateTurnstile({
+      token: turnstileToken,
+      sourceIp: getSourceIp(event)
+    });
+
+    if (!turnstileIsValid) {
+      console.warn("Validación Turnstile rechazada:", {
+        requestId: metadata.requestId,
+        sourceIp: metadata.sourceIp
+      });
+
+      return createResponse(
+        event,
+        403,
+        "No fue posible validar el envío."
+      );
+    }
+
+    /*
+     * Aplica límites por IP y por correo.
+     */
+    try {
+      await enforceContactRateLimits({
+        email,
+        sourceIp: getSourceIp(event)
+      });
+    } catch (rateLimitError) {
+      if (
+        rateLimitError instanceof RateLimitExceededError
+      ) {
+        console.warn("Solicitud limitada:", {
+          requestId: metadata.requestId,
+          sourceIp: metadata.sourceIp
+        });
+
+        return createResponse(
+          event,
+          429,
+          "Has realizado varios envíos. Inténtalo nuevamente más tarde.",
+          {
+            "Retry-After": String(
+              rateLimitError.retryAfterSeconds
+            )
+          }
+        );
+      }
+
+      throw rateLimitError;
     }
 
     const emailData = {
@@ -1152,6 +1437,21 @@ try {
         event,
         400,
         "El contenido de la solicitud no es válido."
+      );
+    }
+
+    if (error?.message === "TURNSTILE_SERVICE_ERROR") {
+      console.error(
+        "Cloudflare Turnstile no respondió correctamente.",
+        {
+          requestId: metadata.requestId
+        }
+      );
+
+      return createResponse(
+        event,
+        503,
+        "No fue posible validar el envío. Inténtalo nuevamente."
       );
     }
 
