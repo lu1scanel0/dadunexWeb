@@ -457,7 +457,8 @@ async function validateTurnstile({
 
   return (
     result?.success === true &&
-    TURNSTILE_ALLOWED_HOSTNAMES.has(result?.hostname)
+    TURNSTILE_ALLOWED_HOSTNAMES.has(result?.hostname) &&
+    result?.action === "contact_form"
   );
 }
 
