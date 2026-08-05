@@ -55,7 +55,9 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
             email: fields.email.value.trim(),
             phone: fields.phone.value.trim(),
             subject: fields.subject.value.trim(),
-            message: fields.message.value.trim()
+            message: fields.message.value.trim(),
+            turnstileToken:
+                turnstile.getResponse()
         };
     }
 
@@ -155,7 +157,21 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
 
         setSubmitting(true);
         announce("Enviando mensaje.");
+        const token = turnstile.getResponse();
 
+        if (!token) {
+
+            await Swal.fire({
+                icon: "warning",
+                title: "Verificación requerida",
+                text: "Completa la verificación de seguridad.",
+                confirmButtonColor: "#198754"
+            });
+
+            setSubmitting(false);
+            return;
+
+        }
         try {
             const response = await fetch(API_URL, {
                 method: "POST",
@@ -197,6 +213,7 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
             });
 
             form.reset();
+            turnstile.reset();
             updateMessageCounter();
 
             Object.values(fields).forEach((field) => {
