@@ -476,13 +476,34 @@ function buildContactRecord({
   message,
   metadata
 }) {
-  const currentDate = new Date().toISOString();
+  const now = new Date();
+
+  const currentDate = now.toISOString();
+   /*
+   * Fecha de expiración del registro.
+   *
+   * Los contactos provenientes del formulario
+   * se conservarán durante 24 meses.
+   *
+   * DynamoDB TTL requiere Unix epoch en segundos.
+   */
+
+  const expirationDate = new Date(now);
+
+  expirationDate.setUTCMonth(
+    expirationDate.getUTCMonth() + 24
+  );
+
+  const expiresAt = Math.floor(
+    expirationDate.getTime() / 1000
+  );
 
   return {
     contactId: randomUUID(),
 
     createdAt: currentDate,
     updatedAt: currentDate,
+    expiresAt,
 
     /*
      * Estado comercial del contacto.

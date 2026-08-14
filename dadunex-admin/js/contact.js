@@ -6,7 +6,8 @@ import {
 import {
   getContacts,
   getContactById,
-  updateContact
+  updateContact,
+  deleteContact
 } from "./api.js";
 
 const STATUS_CONFIG = {
@@ -252,19 +253,28 @@ function renderContact(contact) {
   }
 
 function showError(title, message) {
-  const loading = getElement("contact-loading").hidden = true;
-  const content = getElement("contact-content").hidden = true;
-  const error = getElement("contact-error").hidden = false;
+  const loading =
+    getElement("contact-loading");
+
+  const content =
+    getElement("contact-content");
+
+  const error =
+    getElement("contact-error");
 
   if (loading) {
+    loading.hidden = true;
     loading.style.display = "none";
   }
 
   if (content) {
+    content.hidden = true;
     content.style.display = "none";
   }
+
   if (error) {
-    error.style.display = "block";
+    error.hidden = false;
+    error.style.display = "flex";
   }
 
   setText(
@@ -300,6 +310,31 @@ function setSaving(isSaving) {
 
   if (spinner) {
     spinner.hidden = !isSaving;
+  }
+}
+
+function setDeleting(isDeleting) {
+  const button =
+    getElement("contact-delete-button");
+
+  const text =
+    getElement("contact-delete-text");
+
+  const spinner =
+    getElement("contact-delete-spinner");
+
+  if (button) {
+    button.disabled = isDeleting;
+  }
+
+  if (text) {
+    text.textContent = isDeleting
+      ? "Eliminando..."
+      : "Eliminar contacto";
+  }
+
+  if (spinner) {
+    spinner.hidden = !isDeleting;
   }
 }
 
@@ -382,6 +417,50 @@ async function handleSubmit(event) {
   }
 }
 
+async function handleDelete() {
+  if (!currentContact) {
+    return;
+  }
+
+  const contactName =
+    currentContact.name ||
+    "este contacto";
+
+  const confirmed = window.confirm(
+    `¿Estás seguro de que deseas eliminar a ${contactName}?\n\n` +
+    "Esta acción eliminará permanentemente sus datos y no se puede deshacer."
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  setDeleting(true);
+  hideFormMessage();
+
+  try {
+    await deleteContact(
+      currentContact.contactId
+    );
+
+    window.location.replace(
+      "./contacts.html"
+    );
+  } catch (error) {
+    console.error(
+      "Error al eliminar el contacto:",
+      error
+    );
+
+    showFormMessage(
+      "No fue posible eliminar el contacto. Intenta nuevamente.",
+      true
+    );
+
+    setDeleting(false);
+  }
+}
+
 async function loadContact() {
   const contactId =
     getContactIdFromUrl();
@@ -442,6 +521,12 @@ async function initializeContactPage() {
       "submit",
       handleSubmit
     );
+
+    getElement("contact-delete-button")
+      ?.addEventListener(
+        "click",
+        handleDelete
+      );
 
   await loadContact();
 }

@@ -187,3 +187,23 @@ export async function updateContact(
 
   return data?.contact || null;
 }
+
+export async function deleteContact(
+  contactId
+) {
+  if (!contactId) {
+    throw new Error(
+      "El identificador del contacto es obligatorio."
+    );
+  }
+
+  const encodedContactId =
+    encodeURIComponent(contactId);
+
+  return apiRequest(
+    `/contacts/${encodedContactId}`,
+    {
+      method: "DELETE"
+    }
+  );
+}
