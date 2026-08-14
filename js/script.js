@@ -55,9 +55,7 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
             email: fields.email.value.trim(),
             phone: fields.phone.value.trim(),
             subject: fields.subject.value.trim(),
-            message: fields.message.value.trim(),
-            turnstileToken:
-                turnstile.getResponse()
+            message: fields.message.value.trim()
         };
     }
 
@@ -163,7 +161,7 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
             await Swal.fire({
                 icon: "warning",
                 title: "Verificación requerida",
-                text: "Completa la validación de seguridad.",
+                text: "Completa la verificación de seguridad.",
                 confirmButtonColor: "#198754"
             });
 
@@ -172,21 +170,8 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
 
         setSubmitting(true);
         announce("Enviando mensaje.");
-        const token = turnstile.getResponse();
 
-        if (!token) {
-
-            await Swal.fire({
-                icon: "warning",
-                title: "Verificación requerida",
-                text: "Completa la verificación de seguridad.",
-                confirmButtonColor: "#198754"
-            });
-
-            setSubmitting(false);
-            return;
-
-        }
+        
         try {
             const response = await fetch(API_URL, {
                 method: "POST",
@@ -215,14 +200,14 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
 
             announce("Mensaje enviado correctamente.");
             // Registrar conversión en Google Analytics
-           window.dataLayer = window.dataLayer || [];
-
-            window.dataLayer.push({
-                event: "generate_lead",
-                form_name: "Contacto Dadunex",
-                lead_type: "Mayorista",
-                method: "Formulario Web"
-            });
+            //window.dataLayer = window.dataLayer || [];
+            //
+            //window.dataLayer.push({
+            //    event: "generate_lead",
+            //    form_name: "Contacto Dadunex",
+            //    lead_type: "Mayorista",
+            //    method: "Formulario Web"
+            //});
             await Swal.fire({
                 icon: "success",
                 title: "¡Mensaje enviado!",
@@ -244,6 +229,9 @@ const API_URL = "https://02wbpx6ww4.execute-api.us-east-1.amazonaws.com/default/
         } catch (error) {
             console.error("Error al enviar el formulario:", error);
             announce("No fue posible enviar el mensaje.");
+            if (window.turnstile) {
+                window.turnstile.reset();
+            }
 
             await Swal.fire({
                 icon: "error",

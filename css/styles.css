@@ -538,3 +538,26 @@ button:focus-visible,
         transform: none;
     }
 }
+
+/* Aviso de privacidad del formulario */
+
+.privacy-notice {
+    line-height: 1.5;
+}
+
+.privacy-notice a {
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* Política de privacidad del footer */
+
+.footer-privacy {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.footer-privacy:hover,
+.footer-privacy:focus {
+    text-decoration: none;
+}

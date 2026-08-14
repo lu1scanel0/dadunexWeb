@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Política de Privacidad | Agrícola Dadunex</title>
+    <meta
+        name="description"
+        content="Política de tratamiento y protección de datos personales de Agrícola e Inversiones Dadunex Limitada.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#198754">
+
+    <link rel="canonical" href="https://dadunex.cl/privacidad.html">
+
+    <link rel="icon" href="/images/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <style>
+        :root {
+            --dadunex-green: #198754;
+            --dadunex-green-dark: #146c43;
+            --dadunex-orange: #f57c00;
+            --dadunex-bg: #f7f8f5;
+            --dadunex-text: #2f3a33;
+            --dadunex-muted: #68736c;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background:
+                radial-gradient(circle at top left, rgba(25, 135, 84, 0.10), transparent 32%),
+                radial-gradient(circle at bottom right, rgba(245, 124, 0, 0.10), transparent 30%),
+                var(--dadunex-bg);
+            color: var(--dadunex-text);
+        }
+
+        .privacy-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .privacy-topbar {
+            padding: 1rem 0;
+            background: var(--dadunex-green);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+        }
+
+        .privacy-topbar img {
+            width: 190px;
+            height: auto;
+        }
+
+        .privacy-content {
+            flex: 1;
+            padding: 3rem 1rem;
+        }
+
+        .privacy-card {
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: clamp(1.5rem, 4vw, 3rem);
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid rgba(25, 135, 84, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 18px 50px rgba(31, 55, 41, 0.12);
+        }
+
+        .privacy-header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(25, 135, 84, 0.12);
+        }
+
+        .privacy-icon {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-kicker {
+            margin-bottom: 0.4rem;
+            color: var(--dadunex-orange);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .privacy-header h1 {
+            margin: 0 0 1rem;
+            color: var(--dadunex-green-dark);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+        }
+
+        .privacy-meta {
+            margin: 0;
+            color: var(--dadunex-muted);
+            line-height: 1.7;
+        }
+
+        .privacy-section {
+            margin-bottom: 2rem;
+        }
+
+        .privacy-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .privacy-section h2 {
+            margin-bottom: 0.85rem;
+            color: var(--dadunex-green-dark);
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .privacy-section h3 {
+            margin: 1.25rem 0 0.65rem;
+            color: var(--dadunex-text);
+            font-size: 1.08rem;
+            font-weight: 700;
+        }
+
+        .privacy-section p,
+        .privacy-section li {
+            color: #4e5d53;
+            line-height: 1.75;
+        }
+
+        .privacy-section ul {
+            margin: 0.75rem 0 0;
+            padding-left: 1.35rem;
+        }
+
+        .privacy-contact {
+            margin: 1rem 0;
+            padding: 1rem 1.15rem;
+            background: rgba(25, 135, 84, 0.06);
+            border-left: 4px solid var(--dadunex-green);
+            border-radius: 10px;
+        }
+
+        .privacy-contact p {
+            margin: 0.2rem 0;
+        }
+
+        .privacy-contact a {
+            color: var(--dadunex-green-dark);
+            font-weight: 700;
+        }
+
+        .privacy-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.85rem;
+            padding-top: 2.25rem;
+            margin-top: 2.25rem;
+            border-top: 1px solid rgba(25, 135, 84, 0.12);
+        }
+
+        .privacy-btn {
+            min-width: 180px;
+            padding: 0.85rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .privacy-btn:hover,
+        .privacy-btn:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(25, 135, 84, 0.18);
+        }
+
+        .privacy-btn-primary {
+            border: 1px solid var(--dadunex-green);
+            background: var(--dadunex-green);
+            color: #fff;
+        }
+
+        .privacy-btn-primary:hover,
+        .privacy-btn-primary:focus {
+            background: var(--dadunex-green-dark);
+            color: #fff;
+        }
+
+        .privacy-btn-outline {
+            border: 1px solid var(--dadunex-green);
+            background: transparent;
+            color: var(--dadunex-green-dark);
+        }
+
+        .privacy-btn-outline:hover,
+        .privacy-btn-outline:focus {
+            background: rgba(25, 135, 84, 0.08);
+            color: var(--dadunex-green-dark);
+        }
+
+        .privacy-page footer {
+            margin-top: 0;
+            padding: 1rem;
+            background: transparent;
+            color: var(--dadunex-muted);
+            text-align: center;
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 576px) {
+            .privacy-topbar img {
+                width: 155px;
+            }
+
+            .privacy-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .privacy-card {
+                border-radius: 18px;
+            }
+
+            .privacy-icon {
+                width: 72px;
+                height: 72px;
+            }
+
+            .privacy-actions {
+                flex-direction: column;
+            }
+
+            .privacy-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="privacy-page">
+        <header class="privacy-topbar">
+            <div class="container text-center">
+                <a href="/" aria-label="Volver al inicio de Agrícola Dadunex">
+                    <img
+                        src="/images/logos/logo_dadunex_bco.webp"
+                        alt="Agrícola Dadunex"
+                        width="250"
+                        height="100">
+                </a>
+            </div>
+        </header>
+
+        <main class="privacy-content">
+            <article class="privacy-card">
+                <header class="privacy-header">
+                    <img
+                        class="privacy-icon"
+                        src="/images/logos/dadunex_ico.png"
+                        alt=""
+                        width="90"
+                        height="90"
+                        aria-hidden="true">
+
+                    <p class="privacy-kicker">Protección de datos personales</p>
+                    <h1>Política de Tratamiento de Datos Personales</h1>
+
+                    <p class="privacy-meta">
+                        <strong>Versión:</strong> 1.3<br>
+                        <strong>Fecha:</strong> agosto de 2026
+                    </p>
+                </header>
+
+                <section class="privacy-section">
+                    <h2>1. Disposiciones generales</h2>
+                    <p>
+                        Agrícola e Inversiones Dadunex Limitada, en adelante “Dadunex”, adopta la presente
+                        Política de Tratamiento de Datos Personales con el objeto de informar las condiciones
+                        aplicables al tratamiento de los datos personales que sean proporcionados a través de
+                        su sitio web.
+                    </p>
+                    <p>
+                        El tratamiento se efectuará con observancia de los principios, derechos y obligaciones
+                        establecidos en la Ley N.º 21.719, procurando que los datos sean tratados de manera lícita,
+                        leal, transparente, proporcional y segura, y exclusivamente para finalidades determinadas.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>2. Responsable del tratamiento</h2>
+
+                    <div class="privacy-contact">
+                        <p><strong>Responsable:</strong> Agrícola e Inversiones Dadunex Limitada</p>
+                        <p><strong>Representante legal:</strong> Alejandra Gonzalez</p>
+                        <p>
+                            <strong>Canal de contacto:</strong>
+                            <a href="mailto:contacto@dadunex.cl">contacto@dadunex.cl</a>
+                        </p>
+                    </div>
+
+                    <p>
+                        El canal indicado precedentemente se encuentra habilitado para consultas y para el
+                        ejercicio de los derechos que la Ley N.º 21.719 reconoce a los titulares de datos personales.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>3. Datos personales tratados y origen</h2>
+                    <p>
+                        Dadunex trata los datos que el propio titular proporciona voluntariamente a través del
+                        formulario de contacto disponible en dadunex.cl. Las categorías de datos tratadas son:
+                    </p>
+                    <ul>
+                        <li>Nombre.</li>
+                        <li>Número de teléfono.</li>
+                        <li>Dirección de correo electrónico.</li>
+                        <li>Asunto de la comunicación.</li>
+                        <li>Contenido del mensaje.</li>
+                    </ul>
+                    <p>
+                        El universo de titulares comprende a las personas naturales que se comuniquen con Dadunex
+                        mediante dicho formulario. El formulario no está destinado a la recopilación de datos
+                        personales sensibles.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>4. Finalidad y legitimidad del tratamiento</h2>
+                    <p>
+                        Los datos personales serán tratados para recibir, atender y responder consultas,
+                        solicitudes de información o cotización, establecer comunicaciones comerciales solicitadas
+                        por el titular y dar continuidad a las comunicaciones derivadas de dicho contacto.
+                    </p>
+                    <p>
+                        El tratamiento se realizará sobre la base de legitimidad que resulte aplicable conforme
+                        a la Ley N.º 21.719. Cuando la ley exija consentimiento, éste será requerido en las condiciones
+                        establecidas por la normativa vigente.
+                    </p>
+                    <p>
+                        Los datos no serán tratados para fines incompatibles con aquellos informados en esta política.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>5. Destinatarios, encargados y transferencias</h2>
+                    <p>
+                        Dadunex no vende ni cede los datos personales recopilados mediante el formulario para fines
+                        comerciales propios de terceros.
+                    </p>
+                    <p>
+                        Para la operación de sus sistemas, Dadunex puede recurrir a prestadores de servicios
+                        tecnológicos que traten datos por cuenta y bajo instrucciones del responsable, sujetos
+                        a obligaciones de confidencialidad, seguridad y demás condiciones exigibles conforme a la
+                        Ley N.º 21.719.
+                    </p>
+                    <p>
+                        Cuando la prestación de tales servicios implique una transferencia internacional de datos,
+                        ésta se efectuará únicamente en los casos y bajo las garantías autorizadas por la
+                        Ley N.º 21.719.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>6. Confidencialidad y seguridad</h2>
+                    <p>
+                        Dadunex mantendrá medidas administrativas, organizativas y técnicas apropiadas para resguardar
+                        la confidencialidad, integridad, disponibilidad y seguridad de los datos personales sometidos
+                        a tratamiento, atendida su naturaleza, finalidad y los riesgos razonablemente previsibles.
+                    </p>
+                    <p>
+                        El acceso a los datos personales estará limitado a personas debidamente autorizadas y sujeto
+                        al deber de secreto y confidencialidad establecido por la Ley N.º 21.719.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>7. Conservación</h2>
+                    <p>
+                        Los datos personales serán conservados durante el tiempo necesario para cumplir las finalidades
+                        que justifican su tratamiento.
+                    </p>
+                    <p>
+                        Como regla general, los datos provenientes del formulario de contacto serán conservados por
+                        un plazo máximo de <strong>24 meses contado desde la última interacción comercial</strong>,
+                        salvo que exista una obligación legal o una base de legitimidad que autorice o exija su
+                        conservación por un período distinto.
+                    </p>
+                    <p>
+                        Cumplida la finalidad o vencido el período de conservación aplicable, los datos serán
+                        suprimidos o anonimizados, según corresponda.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>8. Derechos de los titulares</h2>
+                    <p>
+                        Los titulares podrán ejercer los derechos de acceso, rectificación, supresión, oposición,
+                        portabilidad y bloqueo temporal en los casos y condiciones establecidos por la
+                        Ley N.º 21.719.
+                    </p>
+                    <p>
+                        Asimismo, cuando una solicitud sea rechazada o no sea respondida oportunamente, el titular
+                        podrá ejercer los mecanismos de reclamación que la Ley N.º 21.719 contempla ante la Agencia
+                        de Protección de Datos Personales.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>9. Ejercicio de derechos</h2>
+                    <p>
+                        Las solicitudes relativas al tratamiento de datos personales deberán dirigirse a
+                        <a href="mailto:contacto@dadunex.cl"><strong>contacto@dadunex.cl</strong></a>.
+                    </p>
+                    <p>
+                        Dadunex podrá requerir los antecedentes que resulten razonablemente necesarios para
+                        acreditar la identidad del solicitante y resguardar los derechos del titular.
+                    </p>
+                    <p>
+                        Las solicitudes serán tramitadas dentro de los plazos y bajo las condiciones establecidas
+                        por la Ley N.º 21.719.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>10. Cookies y mecanismos de seguridad</h2>
+                    <p>
+                        El sitio web podrá utilizar cookies o tecnologías equivalentes estrictamente necesarias
+                        para su funcionamiento y seguridad.
+                    </p>
+                    <p>
+                        El formulario de contacto podrá incorporar <strong>Cloudflare Turnstile</strong> como
+                        mecanismo destinado a prevenir accesos automatizados, spam, abuso y otras actividades que
+                        puedan comprometer la seguridad del servicio. La información técnica tratada mediante este
+                        mecanismo se utilizará exclusivamente para fines de seguridad y protección del sitio.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>11. Decisiones automatizadas</h2>
+                    <p>
+                        Los datos recopilados mediante el formulario de contacto no son utilizados para adoptar
+                        decisiones basadas exclusivamente en tratamientos automatizados que produzcan efectos
+                        jurídicos o afecten significativamente a sus titulares.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>12. Modificaciones de la política</h2>
+                    <p>
+                        Dadunex podrá modificar esta política cuando resulte necesario para adecuarla a cambios
+                        normativos o a modificaciones sustanciales en las operaciones de tratamiento de datos
+                        personales.
+                    </p>
+                    <p>
+                        Toda modificación será publicada en este mismo sitio, identificándose la fecha y versión
+                        vigente de la política.
+                    </p>
+                </section>
+
+                <div class="privacy-actions">
+                    <a class="privacy-btn privacy-btn-primary" href="/">
+                        Volver al inicio
+                    </a>
+                </div>
+            </article>
+        </main>
+
+        <footer>
+            &copy; 2026 Agrícola Dadunex · Buin, Santiago de Chile
+        </footer>
+    </div>
+</body>
+</html>
