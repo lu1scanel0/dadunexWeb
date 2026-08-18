@@ -675,3 +675,29 @@ textarea.form-control {
 [hidden] {
   display: none !important;
 }
+
+/* Centrado del logo en la barra lateral */
+
+.sidebar__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.sidebar__brand {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.sidebar__brand-logo {
+  display: block;
+  width: 170px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
