@@ -680,24 +680,25 @@ textarea.form-control {
 
 .sidebar__header {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
 }
 
 .sidebar__brand {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .sidebar__brand-logo {
   display: block;
-  width: 170px;
-  max-width: 100%;
+  width: 190px;
+  max-width: none;
   height: auto;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0;
+  transform: translateX(0);
 }
