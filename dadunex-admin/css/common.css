@@ -700,5 +700,5 @@ textarea.form-control {
   height: auto;
   margin: 0;
   padding: 0;
-  transform: translateX(0);
+  transform: translateX(22px);
 }
